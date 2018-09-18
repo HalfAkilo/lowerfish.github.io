@@ -8,18 +8,20 @@
   <link rel="dns-prefetch" href="https://yepbug.com">
   <title>prefer-default-export 有什么好处？ | Yepbug&#39;s Blog | 萤火之未</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="eslint 目前是众多前端项目选择的 lint 工具。Airbnb 的代码规范，应该算是众多代码规范中最为流行的了。不过，Airbnb 的某些规范，也的确让人不爽。prefer-default-export 算是一个。有人专门开了个issue 来追问规范的维护者，为啥要有这个标准。">
+  <meta name="description" content="eslint 目前是众多前端项目选择的 lint 工具。Airbnb 的代码规范，应该算是众多代码规范中最为流行的了。不过，Airbnb 的某些规范，也的确让人不爽。prefer-default-export 算是一个。有人专门开了个issue 来追问规范的维护者，为啥要有这个标准。 issue 的发起者认为，default export 让写代码变得更被动。prefer-default-expo">
 <meta name="keywords" content="airbnb,eslint">
 <meta property="og:type" content="article">
 <meta property="og:title" content="prefer-default-export 有什么好处？">
 <meta property="og:url" content="https://yepbug.com/2018/08/28/what-is-the-benefit-of-prefer-default-export/index.html">
 <meta property="og:site_name" content="Yepbug&#39;s Blog | 萤火之未">
-<meta property="og:description" content="eslint 目前是众多前端项目选择的 lint 工具。Airbnb 的代码规范，应该算是众多代码规范中最为流行的了。不过，Airbnb 的某些规范，也的确让人不爽。prefer-default-export 算是一个。有人专门开了个issue 来追问规范的维护者，为啥要有这个标准。">
+<meta property="og:description" content="eslint 目前是众多前端项目选择的 lint 工具。Airbnb 的代码规范，应该算是众多代码规范中最为流行的了。不过，Airbnb 的某些规范，也的确让人不爽。prefer-default-export 算是一个。有人专门开了个issue 来追问规范的维护者，为啥要有这个标准。 issue 的发起者认为，default export 让写代码变得更被动。prefer-default-expo">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-09-14T15:36:10.879Z">
+<meta property="og:image" content="https://yepbug.com/assets/img/vscode.gif">
+<meta property="og:updated_time" content="2018-09-18T12:36:12.904Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="prefer-default-export 有什么好处？">
-<meta name="twitter:description" content="eslint 目前是众多前端项目选择的 lint 工具。Airbnb 的代码规范，应该算是众多代码规范中最为流行的了。不过，Airbnb 的某些规范，也的确让人不爽。prefer-default-export 算是一个。有人专门开了个issue 来追问规范的维护者，为啥要有这个标准。">
+<meta name="twitter:description" content="eslint 目前是众多前端项目选择的 lint 工具。Airbnb 的代码规范，应该算是众多代码规范中最为流行的了。不过，Airbnb 的某些规范，也的确让人不爽。prefer-default-export 算是一个。有人专门开了个issue 来追问规范的维护者，为啥要有这个标准。 issue 的发起者认为，default export 让写代码变得更被动。prefer-default-expo">
+<meta name="twitter:image" content="https://yepbug.com/assets/img/vscode.gif">
   
     <link rel="alternative" href="/atom.xml" title="Yepbug&#39;s Blog | 萤火之未" type="application/atom+xml">
   
@@ -164,6 +166,16 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p><code>eslint</code> 目前是众多前端项目选择的 lint 工具。Airbnb 的代码规范，应该算是众多代码规范中最为流行的了。不过，Airbnb 的某些规范，也的确让人不爽。<code>prefer-default-export</code> 算是一个。有人专门开了个<a href="https://github.com/airbnb/javascript/issues/1365" target="_blank" rel="noopener">issue</a> 来追问规范的维护者，为啥要有这个标准。</p>
+<p>issue 的发起者认为，default export 让写代码变得更被动。<code>prefer-default-export</code> 是当你在单文件中使用 <code>export const foo</code>/<code>export class foo</code> 只进行一个导出时，给出错误提示。不过，就算你在一个文件中会进行多个导出，在写第一行 <code>export const foo</code> 时，还是避免不了错误提示。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 有错误提示</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> foo = <span class="string">'foo'</span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 没有错误提示</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> foo = <span class="string">'foo'</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> bar = <span class="string">'bar'</span>;</span><br></pre></td></tr></table></figure>
+<p>有人专门写了篇<a href="https://blog.neufund.org/why-we-have-banned-default-exports-and-you-should-do-the-same-d51fdc2cf2ad" target="_blank" rel="noopener">文章</a>，列举了项目中避免使用 default export 的几个原因，获得了五千多赞。欢迎去围观原文，我记录一下我深以为然的几点：</p>
+<h3 id="导入更便捷"><a href="#导入更便捷" class="headerlink" title="导入更便捷"></a>导入更便捷</h3><p>默认导出没有名字，与之相对的，命名导出是有名字的（好像没什么不对 👌）。有名字的话，你的 IDE 就可以帮你找到并自动引入依赖。如图（vscode）：</p>
+<p><img src="/assets/img/vscode.gif" alt="vscode"></p>
+<h3 id="重构更简单"><a href="#重构更简单" class="headerlink" title="重构更简单"></a>重构更简单</h3><p>在大型项目中，默认导出让重构变得困难“重重”，因为导入的时候，可以随意命名。代码示例如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// in file exports.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;...&#125;</span><br><span class="line"><span class="comment">// in file import1.js</span></span><br><span class="line"><span class="keyword">import</span> doSomething <span class="keyword">from</span> <span class="string">"./exports.js"</span></span><br><span class="line"><span class="comment">// in file import2.js</span></span><br><span class="line"><span class="keyword">import</span> doSmth <span class="keyword">from</span> <span class="string">"./exports.js"</span></span><br></pre></td></tr></table></figure>
+<h3 id="tree-shake-减小文件体积"><a href="#tree-shake-减小文件体积" class="headerlink" title="tree shake 减小文件体积"></a>tree shake 减小文件体积</h3><p>当不需要导出所有文件的时候，使用命名导出能够显著减小文件体积。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// do not try this</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  propertyA: <span class="string">'A'</span>,</span><br><span class="line">  propertyB: <span class="string">'B'</span>,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// do this instead</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> propertyA = <span class="string">'A'</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> propertyB = <span class="string">'B'</span>;</span><br></pre></td></tr></table></figure>
 
       
 
