@@ -140,27 +140,33 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-if-and-else-in-json" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-tricks-of-fe" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/06/if-and-else-in-json/">if-and-else-in-json</a>
+      <a class="article-title" href="/2018/09/25/tricks-of-fe/">前端 “bug”</a>
     </h1>
   
 
         
-        <a href="/2018/09/06/if-and-else-in-json/" class="archive-article-date">
-  	<time datetime="2018-09-06T02:23:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-06</time>
+        <a href="/2018/09/25/tricks-of-fe/" class="archive-article-date">
+  	<time datetime="2018-09-25T05:08:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-25</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><a href="https://json-schema.org/draft-07/json-schema-release-notes.html" target="_blank" rel="noopener">https://json-schema.org/draft-07/json-schema-release-notes.html</a></p>
+        <h1 id="前端开发中遇到的一些-bug-和小技巧"><a href="#前端开发中遇到的一些-bug-和小技巧" class="headerlink" title="前端开发中遇到的一些 bug 和小技巧"></a>前端开发中遇到的一些 bug 和小技巧</h1><h2 id="vscode-提示-ts-应为“-”"><a href="#vscode-提示-ts-应为“-”" class="headerlink" title="vscode 提示 [ts] 应为“;”"></a>vscode 提示 <code>[ts] 应为“;”</code></h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">from</span> <span class="string">'./Foo'</span>;</span><br></pre></td></tr></table></figure>
+<p>上面这段 js 代码会在 vscode 报一个 <code>[ts] 应为“;”</code> 的错误。这段代码本身没错，报错只是因为 typescript 目前还不支持 <code>export default from</code> 语法 <a href="https://github.com/Microsoft/TypeScript/issues/4813#issuecomment-312045164" target="_blank" rel="noopener">参见</a>。如果你是用 babel 来编译代码，那这个错误可以无视。如果忍不了报错，可以用下面的写法代替：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Affix <span class="keyword">from</span> <span class="string">'./Foo'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> Foo;</span><br></pre></td></tr></table></figure>
+<p>啰嗦了一行代码，不过确实去掉了报错。</p>
+<h2 id="ios-返回页面，代码不执行"><a href="#ios-返回页面，代码不执行" class="headerlink" title="ios 返回页面，代码不执行"></a>ios 返回页面，代码不执行</h2><p>这是因为 ios 的缓存问题。如果用的是 jQuery，前端们最熟悉的应该是用<code>$(function(){})</code>监听 <code>DOMContentLoaded</code> 事件。为了让缓存页面执行 js，可以监听 <code>pageshow</code> 事件。如果需要返回刷新的功能：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">window</span>.onpageshow = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (e.persisted) &#123;</span><br><span class="line">    <span class="built_in">window</span>.location.reload(<span class="literal">true</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="eslint-报错-‘React-is-defined-but-never-used-no-unused-vars’"><a href="#eslint-报错-‘React-is-defined-but-never-used-no-unused-vars’" class="headerlink" title="eslint 报错 ‘React is defined but never used no-unused-vars’"></a>eslint 报错 ‘React is defined but never used no-unused-vars’</h2><p>我承认这个报错是因为我自己傻，不过<a href="https://github.com/yannickcr/eslint-plugin-react/issues/1463" target="_blank" rel="noopener">有人和我一样傻</a>，哈哈哈~</p>
 
       
 
@@ -173,7 +179,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2018/09/06/if-and-else-in-json/">展开全文 >></a>
+          <a class="article-more-a" href="/2018/09/25/tricks-of-fe/">展开全文 >></a>
         </p>
       
 
@@ -304,7 +310,7 @@
 
         
         <a href="/2018/08/08/hello-world/" class="archive-article-date">
-  	<time datetime="2018-08-08T12:16:58.179Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-08</time>
+  	<time datetime="2018-08-08T12:16:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-08</time>
 </a>
         
       </header>

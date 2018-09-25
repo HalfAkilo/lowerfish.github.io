@@ -6,22 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://yepbug.com">
-  <title>prefer-default-export 有什么好处？ | Yepbug&#39;s Blog | 萤火之未</title>
+  <title>前端 “bug” | Yepbug&#39;s Blog | 萤火之未</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="eslint 目前是众多前端项目选择的 lint 工具。Airbnb 的代码规范，应该算是众多代码规范中最为流行的了。不过，Airbnb 的某些规范，也的确让人不爽。prefer-default-export 算是一个。有人专门开了个issue 来追问规范的维护者，为啥要有这个标准。 issue 的发起者认为，default export 让写代码变得更被动。prefer-default-expo">
-<meta name="keywords" content="airbnb,eslint">
+  <meta name="description" content="前端开发中遇到的一些 bug 和小技巧vscode 提示 [ts] 应为“;”1export default from &apos;./Foo&apos;; 上面这段 js 代码会在 vscode 报一个 [ts] 应为“;” 的错误。这段代码本身没错，报错只是因为 typescript 目前还不支持 export default from 语法 参见。如果你是用 babel 来编译代码，那这个错误可以无视。如果忍不">
 <meta property="og:type" content="article">
-<meta property="og:title" content="prefer-default-export 有什么好处？">
-<meta property="og:url" content="https://yepbug.com/2018/08/28/what-is-the-benefit-of-prefer-default-export/index.html">
+<meta property="og:title" content="前端 “bug”">
+<meta property="og:url" content="https://yepbug.com/2018/09/25/tricks-of-fe/index.html">
 <meta property="og:site_name" content="Yepbug&#39;s Blog | 萤火之未">
-<meta property="og:description" content="eslint 目前是众多前端项目选择的 lint 工具。Airbnb 的代码规范，应该算是众多代码规范中最为流行的了。不过，Airbnb 的某些规范，也的确让人不爽。prefer-default-export 算是一个。有人专门开了个issue 来追问规范的维护者，为啥要有这个标准。 issue 的发起者认为，default export 让写代码变得更被动。prefer-default-expo">
+<meta property="og:description" content="前端开发中遇到的一些 bug 和小技巧vscode 提示 [ts] 应为“;”1export default from &apos;./Foo&apos;; 上面这段 js 代码会在 vscode 报一个 [ts] 应为“;” 的错误。这段代码本身没错，报错只是因为 typescript 目前还不支持 export default from 语法 参见。如果你是用 babel 来编译代码，那这个错误可以无视。如果忍不">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://yepbug.com/assets/img/vscode.gif">
-<meta property="og:updated_time" content="2018-09-18T12:36:12.000Z">
+<meta property="og:updated_time" content="2018-09-25T05:38:49.953Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="prefer-default-export 有什么好处？">
-<meta name="twitter:description" content="eslint 目前是众多前端项目选择的 lint 工具。Airbnb 的代码规范，应该算是众多代码规范中最为流行的了。不过，Airbnb 的某些规范，也的确让人不爽。prefer-default-export 算是一个。有人专门开了个issue 来追问规范的维护者，为啥要有这个标准。 issue 的发起者认为，default export 让写代码变得更被动。prefer-default-expo">
-<meta name="twitter:image" content="https://yepbug.com/assets/img/vscode.gif">
+<meta name="twitter:title" content="前端 “bug”">
+<meta name="twitter:description" content="前端开发中遇到的一些 bug 和小技巧vscode 提示 [ts] 应为“;”1export default from &apos;./Foo&apos;; 上面这段 js 代码会在 vscode 报一个 [ts] 应为“;” 的错误。这段代码本身没错，报错只是因为 typescript 目前还不支持 export default from 语法 参见。如果你是用 babel 来编译代码，那这个错误可以无视。如果忍不">
   
     <link rel="alternative" href="/atom.xml" title="Yepbug&#39;s Blog | 萤火之未" type="application/atom+xml">
   
@@ -145,37 +142,33 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-what-is-the-benefit-of-prefer-default-export" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-tricks-of-fe" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      prefer-default-export 有什么好处？
+      前端 “bug”
     </h1>
   
 
         
-        <a href="/2018/08/28/what-is-the-benefit-of-prefer-default-export/" class="archive-article-date">
-  	<time datetime="2018-08-28T05:32:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-28</time>
+        <a href="/2018/09/25/tricks-of-fe/" class="archive-article-date">
+  	<time datetime="2018-09-25T05:08:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-25</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><code>eslint</code> 目前是众多前端项目选择的 lint 工具。Airbnb 的代码规范，应该算是众多代码规范中最为流行的了。不过，Airbnb 的某些规范，也的确让人不爽。<code>prefer-default-export</code> 算是一个。有人专门开了个<a href="https://github.com/airbnb/javascript/issues/1365" target="_blank" rel="noopener">issue</a> 来追问规范的维护者，为啥要有这个标准。</p>
-<p>issue 的发起者认为，default export 让写代码变得更被动。<code>prefer-default-export</code> 是当你在单文件中使用 <code>export const foo</code>/<code>export class foo</code> 只进行一个导出时，给出错误提示。不过，就算你在一个文件中会进行多个导出，在写第一行 <code>export const foo</code> 时，还是避免不了错误提示。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 有错误提示</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> foo = <span class="string">'foo'</span>;</span><br></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 没有错误提示</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> foo = <span class="string">'foo'</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> bar = <span class="string">'bar'</span>;</span><br></pre></td></tr></table></figure>
-<p>有人专门写了篇<a href="https://blog.neufund.org/why-we-have-banned-default-exports-and-you-should-do-the-same-d51fdc2cf2ad" target="_blank" rel="noopener">文章</a>，列举了项目中避免使用 default export 的几个原因，获得了五千多赞。欢迎去围观原文，我记录一下我深以为然的几点：</p>
-<h3 id="导入更便捷"><a href="#导入更便捷" class="headerlink" title="导入更便捷"></a>导入更便捷</h3><p>默认导出没有名字，与之相对的，命名导出是有名字的（好像没什么不对 👌）。有名字的话，你的 IDE 就可以帮你找到并自动引入依赖。如图（vscode）：</p>
-<p><img src="/assets/img/vscode.gif" alt="vscode"></p>
-<h3 id="重构更简单"><a href="#重构更简单" class="headerlink" title="重构更简单"></a>重构更简单</h3><p>在大型项目中，默认导出让重构变得困难“重重”，因为导入的时候，可以随意命名。代码示例如下：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// in file exports.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;...&#125;</span><br><span class="line"><span class="comment">// in file import1.js</span></span><br><span class="line"><span class="keyword">import</span> doSomething <span class="keyword">from</span> <span class="string">"./exports.js"</span></span><br><span class="line"><span class="comment">// in file import2.js</span></span><br><span class="line"><span class="keyword">import</span> doSmth <span class="keyword">from</span> <span class="string">"./exports.js"</span></span><br></pre></td></tr></table></figure>
-<h3 id="tree-shake-减小文件体积"><a href="#tree-shake-减小文件体积" class="headerlink" title="tree shake 减小文件体积"></a>tree shake 减小文件体积</h3><p>当不需要导出所有文件的时候，使用命名导出能够显著减小文件体积。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// do not try this</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  propertyA: <span class="string">'A'</span>,</span><br><span class="line">  propertyB: <span class="string">'B'</span>,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// do this instead</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> propertyA = <span class="string">'A'</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> propertyB = <span class="string">'B'</span>;</span><br></pre></td></tr></table></figure>
+        <h1 id="前端开发中遇到的一些-bug-和小技巧"><a href="#前端开发中遇到的一些-bug-和小技巧" class="headerlink" title="前端开发中遇到的一些 bug 和小技巧"></a>前端开发中遇到的一些 bug 和小技巧</h1><h2 id="vscode-提示-ts-应为“-”"><a href="#vscode-提示-ts-应为“-”" class="headerlink" title="vscode 提示 [ts] 应为“;”"></a>vscode 提示 <code>[ts] 应为“;”</code></h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">from</span> <span class="string">'./Foo'</span>;</span><br></pre></td></tr></table></figure>
+<p>上面这段 js 代码会在 vscode 报一个 <code>[ts] 应为“;”</code> 的错误。这段代码本身没错，报错只是因为 typescript 目前还不支持 <code>export default from</code> 语法 <a href="https://github.com/Microsoft/TypeScript/issues/4813#issuecomment-312045164" target="_blank" rel="noopener">参见</a>。如果你是用 babel 来编译代码，那这个错误可以无视。如果忍不了报错，可以用下面的写法代替：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Affix <span class="keyword">from</span> <span class="string">'./Foo'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> Foo;</span><br></pre></td></tr></table></figure>
+<p>啰嗦了一行代码，不过确实去掉了报错。</p>
+<h2 id="ios-返回页面，代码不执行"><a href="#ios-返回页面，代码不执行" class="headerlink" title="ios 返回页面，代码不执行"></a>ios 返回页面，代码不执行</h2><p>这是因为 ios 的缓存问题。如果用的是 jQuery，前端们最熟悉的应该是用<code>$(function(){})</code>监听 <code>DOMContentLoaded</code> 事件。为了让缓存页面执行 js，可以监听 <code>pageshow</code> 事件。如果需要返回刷新的功能：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">window</span>.onpageshow = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (e.persisted) &#123;</span><br><span class="line">    <span class="built_in">window</span>.location.reload(<span class="literal">true</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="eslint-报错-‘React-is-defined-but-never-used-no-unused-vars’"><a href="#eslint-报错-‘React-is-defined-but-never-used-no-unused-vars’" class="headerlink" title="eslint 报错 ‘React is defined but never used no-unused-vars’"></a>eslint 报错 ‘React is defined but never used no-unused-vars’</h2><p>我承认这个报错是因为我自己傻，不过<a href="https://github.com/yannickcr/eslint-plugin-react/issues/1463" target="_blank" rel="noopener">有人和我一样傻</a>，哈哈哈~</p>
 
       
 
@@ -184,21 +177,6 @@
     <div class="article-info article-info-index">
       
       
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">airbnb</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">eslint</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
       
 
       
@@ -249,7 +227,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=https://yepbug.com/2018/08/28/what-is-the-benefit-of-prefer-default-export/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=https://yepbug.com/2018/09/25/tricks-of-fe/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -263,18 +241,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2018/09/25/tricks-of-fe/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          前端 “bug”
-        
-      </div>
-    </a>
   
-  
-    <a href="/2018/08/08/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Hello World</div>
+    <a href="/2018/08/28/what-is-the-benefit-of-prefer-default-export/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">prefer-default-export 有什么好处？</div>
       <i class="icon-circle-right"></i>
     </a>
   
