@@ -9,13 +9,14 @@
   <title>前端 “bug” | Yepbug&#39;s Blog | 萤火之未</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="前端开发中遇到的一些 bug 和小技巧vscode 提示 [ts] 应为“;”1export default from &apos;./Foo&apos;; 上面这段 js 代码会在 vscode 报一个 [ts] 应为“;” 的错误。这段代码本身没错，报错只是因为 typescript 目前还不支持 export default from 语法 参见。如果你是用 babel 来编译代码，那这个错误可以无视。如果忍不">
+<meta name="keywords" content="‘yarn 失效’,前端 bug">
 <meta property="og:type" content="article">
 <meta property="og:title" content="前端 “bug”">
 <meta property="og:url" content="https://yepbug.com/2018/09/25/tricks-of-fe/index.html">
 <meta property="og:site_name" content="Yepbug&#39;s Blog | 萤火之未">
 <meta property="og:description" content="前端开发中遇到的一些 bug 和小技巧vscode 提示 [ts] 应为“;”1export default from &apos;./Foo&apos;; 上面这段 js 代码会在 vscode 报一个 [ts] 应为“;” 的错误。这段代码本身没错，报错只是因为 typescript 目前还不支持 export default from 语法 参见。如果你是用 babel 来编译代码，那这个错误可以无视。如果忍不">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-09-25T05:38:49.953Z">
+<meta property="og:updated_time" content="2018-09-27T13:30:43.826Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="前端 “bug”">
 <meta name="twitter:description" content="前端开发中遇到的一些 bug 和小技巧vscode 提示 [ts] 应为“;”1export default from &apos;./Foo&apos;; 上面这段 js 代码会在 vscode 报一个 [ts] 应为“;” 的错误。这段代码本身没错，报错只是因为 typescript 目前还不支持 export default from 语法 参见。如果你是用 babel 来编译代码，那这个错误可以无视。如果忍不">
@@ -169,6 +170,9 @@
 <h2 id="ios-返回页面，代码不执行"><a href="#ios-返回页面，代码不执行" class="headerlink" title="ios 返回页面，代码不执行"></a>ios 返回页面，代码不执行</h2><p>这是因为 ios 的缓存问题。如果用的是 jQuery，前端们最熟悉的应该是用<code>$(function(){})</code>监听 <code>DOMContentLoaded</code> 事件。为了让缓存页面执行 js，可以监听 <code>pageshow</code> 事件。如果需要返回刷新的功能：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">window</span>.onpageshow = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (e.persisted) &#123;</span><br><span class="line">    <span class="built_in">window</span>.location.reload(<span class="literal">true</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <h2 id="eslint-报错-‘React-is-defined-but-never-used-no-unused-vars’"><a href="#eslint-报错-‘React-is-defined-but-never-used-no-unused-vars’" class="headerlink" title="eslint 报错 ‘React is defined but never used no-unused-vars’"></a>eslint 报错 ‘React is defined but never used no-unused-vars’</h2><p>我承认这个报错是因为我自己傻，不过<a href="https://github.com/yannickcr/eslint-plugin-react/issues/1463" target="_blank" rel="noopener">有人和我一样傻</a>，哈哈哈~</p>
+<h2 id="nvm-安装新版本-node-后，yarn-命令失效"><a href="#nvm-安装新版本-node-后，yarn-命令失效" class="headerlink" title="nvm 安装新版本 node 后，yarn 命令失效"></a>nvm 安装新版本 node 后，yarn 命令失效</h2><p>这可能是因为 yarn 是通过 <code>npm install -g yarn</code> 命令来安装的。这种安装方式，yarn 是跟着 node 版本走的。每装一个新版本，都有去重复下载 yarn。使用 <code>brew install yarn --without-node</code> 来安装可解决这种问题。这种方式可以解决 yarn 的问题，不过，其他的全局包比如 hexo-cli，vue-cli 等，因为除了 npm 之外，没有其他的安装方式，所以，需要每次更新之后，都去重新安装一下全局包。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvm install 10.10.0 --reinstall-packages-from=10.5.0</span><br></pre></td></tr></table></figure>
+<p>上面的命令在安装 10.10 版本的 node 时，会自动安装在 10.5 版本时安装的全局包。如果还不能解决问题，请参考<a href="https://zhuanlan.zhihu.com/p/31927735" target="_blank" rel="noopener">这里</a>。</p>
 
       
 
@@ -177,6 +181,21 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">‘yarn 失效’</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">前端 bug</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 
       
@@ -382,6 +401,22 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">新世界</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">prefer-default-export</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">[ts] 应为“;”</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">‘yarn 失效’</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">前端 bug</a>
               </li>
             
             <div class="clearfix"></div>

@@ -6,22 +6,15 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://yepbug.com">
-  <title>prefer-default-export 有什么好处？ | Yepbug&#39;s Blog | 萤火之未</title>
+  <title>Tag: 前端 bug | Yepbug&#39;s Blog | 萤火之未</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="eslint 目前是众多前端项目选择的 lint 工具。Airbnb 的代码规范，应该算是众多代码规范中最为流行的了。不过，Airbnb 的某些规范，也的确让人不爽。prefer-default-export 算是一个。有人专门开了个issue 来追问规范的维护者，为啥要有这个标准。 issue 的发起者认为，default export 让写代码变得更被动。prefer-default-expo">
-<meta name="keywords" content="airbnb,eslint,prefer-default-export">
-<meta property="og:type" content="article">
-<meta property="og:title" content="prefer-default-export 有什么好处？">
-<meta property="og:url" content="https://yepbug.com/2018/08/28/what-is-the-benefit-of-prefer-default-export/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Yepbug&#39;s Blog | 萤火之未">
+<meta property="og:url" content="https://yepbug.com/tags/前端-bug/index.html">
 <meta property="og:site_name" content="Yepbug&#39;s Blog | 萤火之未">
-<meta property="og:description" content="eslint 目前是众多前端项目选择的 lint 工具。Airbnb 的代码规范，应该算是众多代码规范中最为流行的了。不过，Airbnb 的某些规范，也的确让人不爽。prefer-default-export 算是一个。有人专门开了个issue 来追问规范的维护者，为啥要有这个标准。 issue 的发起者认为，default export 让写代码变得更被动。prefer-default-expo">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://yepbug.com/assets/img/vscode.gif">
-<meta property="og:updated_time" content="2018-09-27T13:29:39.382Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="prefer-default-export 有什么好处？">
-<meta name="twitter:description" content="eslint 目前是众多前端项目选择的 lint 工具。Airbnb 的代码规范，应该算是众多代码规范中最为流行的了。不过，Airbnb 的某些规范，也的确让人不爽。prefer-default-export 算是一个。有人专门开了个issue 来追问规范的维护者，为啥要有这个标准。 issue 的发起者认为，default export 让写代码变得更被动。prefer-default-expo">
-<meta name="twitter:image" content="https://yepbug.com/assets/img/vscode.gif">
+<meta name="twitter:title" content="Yepbug&#39;s Blog | 萤火之未">
   
     <link rel="alternative" href="/atom.xml" title="Yepbug&#39;s Blog | 萤火之未" type="application/atom+xml">
   
@@ -145,173 +138,64 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-what-is-the-benefit-of-prefer-default-export" class="article article-type-post " itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
+            
   
-    <h1 class="article-title" itemprop="name">
-      prefer-default-export 有什么好处？
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2018" class="archive-year">2018</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2018/09/25/tricks-of-fe/" class="archive-article-date">
+  	<time datetime="2018-09-25T05:08:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-25</time>
+</a>
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2018/09/25/tricks-of-fe/">前端 “bug”</a>
     </h1>
   
 
-        
-        <a href="/2018/08/28/what-is-the-benefit-of-prefer-default-export/" class="archive-article-date">
-  	<time datetime="2018-08-28T05:32:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><code>eslint</code> 目前是众多前端项目选择的 lint 工具。Airbnb 的代码规范，应该算是众多代码规范中最为流行的了。不过，Airbnb 的某些规范，也的确让人不爽。<code>prefer-default-export</code> 算是一个。有人专门开了个<a href="https://github.com/airbnb/javascript/issues/1365" target="_blank" rel="noopener">issue</a> 来追问规范的维护者，为啥要有这个标准。</p>
-<p>issue 的发起者认为，default export 让写代码变得更被动。<code>prefer-default-export</code> 是当你在单文件中使用 <code>export const foo</code>/<code>export class foo</code> 只进行一个导出时，给出错误提示。不过，就算你在一个文件中会进行多个导出，在写第一行 <code>export const foo</code> 时，还是避免不了错误提示。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 有错误提示</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> foo = <span class="string">'foo'</span>;</span><br></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 没有错误提示</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> foo = <span class="string">'foo'</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> bar = <span class="string">'bar'</span>;</span><br></pre></td></tr></table></figure>
-<p>有人专门写了篇<a href="https://blog.neufund.org/why-we-have-banned-default-exports-and-you-should-do-the-same-d51fdc2cf2ad" target="_blank" rel="noopener">文章</a>，列举了项目中避免使用 default export 的几个原因，获得了五千多赞。欢迎去围观原文，我记录一下我深以为然的几点：</p>
-<h1 id="不用默认导出的好处"><a href="#不用默认导出的好处" class="headerlink" title="不用默认导出的好处"></a>不用默认导出的好处</h1><h2 id="导入更便捷"><a href="#导入更便捷" class="headerlink" title="导入更便捷"></a>导入更便捷</h2><p>默认导出没有名字，与之相对的，命名导出是有名字的（好像没什么不对 👌）。有名字的话，你的 IDE 就可以帮你找到并自动引入依赖。如图（vscode）：</p>
-<p><img src="/assets/img/vscode.gif" alt="vscode"></p>
-<h2 id="重构更简单"><a href="#重构更简单" class="headerlink" title="重构更简单"></a>重构更简单</h2><p>在大型项目中，默认导出让重构变得困难“重重”，因为导入的时候，可以随意命名。代码示例如下：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// in file exports.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;...&#125;</span><br><span class="line"><span class="comment">// in file import1.js</span></span><br><span class="line"><span class="keyword">import</span> doSomething <span class="keyword">from</span> <span class="string">"./exports.js"</span></span><br><span class="line"><span class="comment">// in file import2.js</span></span><br><span class="line"><span class="keyword">import</span> doSmth <span class="keyword">from</span> <span class="string">"./exports.js"</span></span><br></pre></td></tr></table></figure>
-<h2 id="tree-shake-减小文件体积"><a href="#tree-shake-减小文件体积" class="headerlink" title="tree shake 减小文件体积"></a>tree shake 减小文件体积</h2><p>当不需要导出所有文件的时候，使用命名导出能够显著减小文件体积。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// do not try this</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  propertyA: <span class="string">'A'</span>,</span><br><span class="line">  propertyB: <span class="string">'B'</span>,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// do this instead</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> propertyA = <span class="string">'A'</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> propertyB = <span class="string">'B'</span>;</span><br></pre></td></tr></table></figure>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
+        <div class="article-info info-on-right">
+          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">airbnb</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">‘yarn 失效’</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">eslint</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">prefer-default-export</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">前端 bug</a>
         		</li>
       		
 		</ul>
 	</div>
 
-      
+          
 
-      
-
-      
-        
-<div class="share-btn share-icons tooltip-left">
-  <div class="tooltip tooltip-east">
-    <span class="tooltip-item">
-      <a href="javascript:;" class="share-sns share-outer">
-        <i class="icon icon-share"></i>
-      </a>
-    </span>
-    <span class="tooltip-content">
-      <div class="share-wrap">
-        <div class="share-icons">
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="icon icon-weibo"></i>
-          </a>
-          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="icon icon-weixin"></i>
-          </a>
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="icon icon-qq"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" data-type="douban">
-            <i class="icon icon-douban"></i>
-          </a>
-          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a>
-          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-            <i class="icon icon-facebook"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-            <i class="icon icon-twitter"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" data-type="google">
-            <i class="icon icon-google"></i>
-          </a>
         </div>
-      </div>
-    </span>
-  </div>
-</div>
-
-<div class="page-modal wx-share js-wx-box">
-    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=https://yepbug.com/2018/08/28/what-is-the-benefit-of-prefer-default-export/" alt="微信分享二维码">
-    </div>
-</div>
-
-<div class="mask js-mask"></div>
-      
-      <div class="clearfix"></div>
-    </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
-  
-<nav id="article-nav">
-  
-    <a href="/2018/09/25/tricks-of-fe/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          前端 “bug”
-        
-      </div>
-    </a>
   
   
-    <a href="/2018/08/08/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Hello World</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-  
-  
+    </div></section>
   
 
-  
-
-  
-
-  
+    
 
 
           </div>
@@ -334,9 +218,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: true,
+		isPost: false,
 		isArchive: false,
-		isTag: false,
+		isTag: true,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,
