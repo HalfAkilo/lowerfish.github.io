@@ -316,7 +316,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><code>eslint</code> 目前是众多前端项目选择的 lint 工具。Airbnb 的代码规范，应该算是众多代码规范中最为流行的了。不过，Airbnb 的某些规范，也的确让人不爽。<code>prefer-default-export</code> 算是一个。有人专门开了个<a href="https://github.com/airbnb/javascript/issues/1365" target="_blank" rel="noopener">issue</a> 来追问规范的维护者，为啥要有这个标准。</p>
+        <p><code>eslint</code> 目前是众多前端项目选择的 lint 工具。Airbnb 的代码规范，应该算是众多代码规范中最为流行的了。不过，Airbnb 的某些规范，也的确让人不爽。<code>prefer-default-export</code> 算是一个。有人专门开了个<a href="https://github.com/airbnb/javascript/issues/1365" target="_blank" rel="noopener">issue</a> 来追问规范的维护者，为啥要有这个标准。这里有一篇 ts 中不用 export default 的说明。<a href="https://jkchao.github.io/typescript-book-chinese/tips/avoidExportDefault.html" target="_blank" rel="noopener">export default 被认为是有害的</a></p>
 <p>issue 的发起者认为，default export 让写代码变得更被动。<code>prefer-default-export</code> 是当你在单文件中使用 <code>export const foo</code>/<code>export class foo</code> 只进行一个导出时，给出错误提示。不过，就算你在一个文件中会进行多个导出，在写第一行 <code>export const foo</code> 时，还是避免不了错误提示。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 有错误提示</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> foo = <span class="string">'foo'</span>;</span><br></pre></td></tr></table></figure>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 没有错误提示</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> foo = <span class="string">'foo'</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> bar = <span class="string">'bar'</span>;</span><br></pre></td></tr></table></figure>
@@ -543,19 +543,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">前端 bug</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">‘yarn 失效’</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">新世界</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">前端 bug</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">‘yarn 失效’</a>
               </li>
              
               <li class="article-tag-list-item">
