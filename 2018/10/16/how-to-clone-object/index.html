@@ -15,15 +15,21 @@
     Yepbug&#39;s Blog | 萤火之未
   </title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="keywords" content="js,对象复制">
+  <meta name="description" content="8102 年了，我们该怎么去复制一个对象？答案：看需求说话。如果你是准备去维护一个类似 lodash 或者是 underscore 这样的工具库，那肯定是要考虑到方方面；不过，要是你明确知道自己要干啥，那有很多简单的方式来实现复制:） 1234567function clone(source) &amp;#123;  return &amp;#123; ...source &amp;#125;;&amp;#125;let a =">
+<meta name="keywords" content="js,对象复制">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JS 到底该怎么复制对象啊">
 <meta property="og:url" content="https://yepbug.com/2018/10/16/how-to-clone-object/index.html">
 <meta property="og:site_name" content="Yepbug&#39;s Blog | 萤火之未">
+<meta property="og:description" content="8102 年了，我们该怎么去复制一个对象？答案：看需求说话。如果你是准备去维护一个类似 lodash 或者是 underscore 这样的工具库，那肯定是要考虑到方方面；不过，要是你明确知道自己要干啥，那有很多简单的方式来实现复制:） 1234567function clone(source) &amp;#123;  return &amp;#123; ...source &amp;#125;;&amp;#125;let a =">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-10-27T02:19:17.616Z">
+<meta property="og:image" content="https://yepbug.com/assets/img/meme-duck.jpg">
+<meta property="og:image" content="https://yepbug.com/assets/img/i-am-back.jpg">
+<meta property="og:updated_time" content="2018-10-27T07:48:04.253Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JS 到底该怎么复制对象啊">
+<meta name="twitter:description" content="8102 年了，我们该怎么去复制一个对象？答案：看需求说话。如果你是准备去维护一个类似 lodash 或者是 underscore 这样的工具库，那肯定是要考虑到方方面；不过，要是你明确知道自己要干啥，那有很多简单的方式来实现复制:） 1234567function clone(source) &amp;#123;  return &amp;#123; ...source &amp;#125;;&amp;#125;let a =">
+<meta name="twitter:image" content="https://yepbug.com/assets/img/meme-duck.jpg">
   
   <link rel="alternative" href="/atom.xml" title="Yepbug&#39;s Blog | 萤火之未" type="application/atom+xml">
   
@@ -158,7 +164,23 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <p>8102 年了，我们该怎么去复制一个对象？答案：看需求说话。如果你是准备去维护一个类似 lodash 或者是 underscore 这样的工具库，那肯定是要考虑到方方面；不过，要是你明确知道自己要干啥，那有很多简单的方式来实现复制:）</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">clone</span>(<span class="params">source</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> &#123; ...source &#125;;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> a = &#123; <span class="attr">name</span>: <span class="string">'a'</span> &#125;;</span><br><span class="line"><span class="keyword">let</span> b = clone(a);</span><br><span class="line">b.name = <span class="string">'b'</span>;</span><br><span class="line"><span class="built_in">console</span>.log(a.name, b.name); <span class="comment">// a b</span></span><br></pre></td></tr></table></figure>
+<p>完美！？<br>就算不考虑兼容性，这段代码实现的也仅仅是 shallowCopy 功能，很多情况下可能不适用：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">clone</span>(<span class="params">source</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> &#123; ...source &#125;;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> a = &#123; <span class="attr">name</span>: <span class="string">'a'</span>, <span class="attr">familyMember</span>: [<span class="string">'lucy'</span>, <span class="string">'lily'</span>] &#125;;</span><br><span class="line"><span class="keyword">let</span> b = clone(a);</span><br><span class="line">b.familyMember[<span class="number">0</span>] = <span class="string">'jack'</span>;</span><br><span class="line"><span class="built_in">console</span>.log(a.familyMember[<span class="number">0</span>], b.familyMember[<span class="number">0</span>]); <span class="comment">// jack jack</span></span><br></pre></td></tr></table></figure>
+<p>像上面这样，如果对象的属性不是原始值，就无法正确复制。</p>
+<p>实现深拷贝，最容易想到的是递归。只要判断对象属性是不是原始值，是的话，直接复制；否则，递归。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">clone</span>(<span class="params">source</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> target = &#123;&#125;;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i <span class="keyword">in</span> source) &#123;</span><br><span class="line">    <span class="keyword">if</span> (source.hasOwnProperty(i)) &#123;</span><br><span class="line">      <span class="keyword">if</span> (<span class="keyword">typeof</span> source[i] === <span class="string">'object'</span>) &#123;</span><br><span class="line">        target[i] = clone(source[i]);</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        target[i] = source[i];</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> target;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> a = &#123; <span class="attr">name</span>: <span class="string">'a'</span>, <span class="attr">familyMember</span>: [<span class="string">'lucy'</span>, <span class="string">'lily'</span>] &#125;;</span><br><span class="line"><span class="keyword">let</span> b = clone(a);</span><br><span class="line">b.familyMember[<span class="number">0</span>] = <span class="string">'jack'</span>;</span><br><span class="line"><span class="built_in">console</span>.log(a.familyMember[<span class="number">0</span>], b.familyMember[<span class="number">0</span>]); <span class="comment">// lucy, jack</span></span><br></pre></td></tr></table></figure>
+<p>又一个完美的方法！？虽然看着像那么一回事，不过用递归就得考虑一下爆栈的问题。上面的方法中，有一层属性，就要在栈里压一层 clone 方法。写个方法，测试一下几层会爆：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createDeepObject</span>(<span class="params">depth</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> res = &#123;&#125;;</span><br><span class="line">  <span class="keyword">let</span> tmp = res;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; depth; i++) &#123;</span><br><span class="line">    tmp[<span class="string">'data'</span>] = &#123;&#125;;</span><br><span class="line">    tmp = tmp[<span class="string">'data'</span>];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> a = clone(createDeepObject(<span class="number">999</span>)); <span class="comment">// 🐂🍺，没爆</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">* 我的配置</span></span><br><span class="line"><span class="comment">* 型号名称： iMac</span></span><br><span class="line"><span class="comment">* 型号标识符： iMac18,3</span></span><br><span class="line"><span class="comment">* 处理器名称： Intel Core i7</span></span><br><span class="line"><span class="comment">* 处理器速度： 4.2 GHz</span></span><br><span class="line"><span class="comment">* 处理器数目： 1</span></span><br><span class="line"><span class="comment">* 核总数： 4</span></span><br><span class="line"><span class="comment">* L2 缓存（每个核）： 256 KB</span></span><br><span class="line"><span class="comment">* L3 缓存： 8 MB</span></span><br><span class="line"><span class="comment">* 内存： 16 GB</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">let</span> b = clone(createDeepObject(<span class="number">9999</span>)); <span class="comment">// 不是不爆，时候未到</span></span><br><span class="line"><span class="comment">//  VM2526:1 Uncaught RangeError: Maximum call stack size exceeded</span></span><br></pre></td></tr></table></figure>
+<p>到 999 层没爆，实际上已经足够满足我们的需求了（这应该与硬件配置以及浏览器具体实现有关）。如果实际业务场景中，真的有一个一千多层深度的对象，那需要优化的一般不是你的 clone 方法，而是整个技术团队 —— 赶紧离职。</p>
+<p><img src="/assets/img/meme-duck.jpg" alt="damn you pm"></p>
+<p>不过，想让我们的代码爆掉，并不需要一个一千多层的对象，循环引用就够了。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = &#123;&#125;;</span><br><span class="line">a.a = a;</span><br><span class="line">clone(a);</span><br></pre></td></tr></table></figure>
+<p>看来我的代码确实是不严谨啊。算了，为了钱，滚回来继续上班。</p>
+<p><img src="/assets/img/i-am-back.jpg" alt="i am back but still damn you pm"></p>
+<p>一个严谨的、得到广泛认可的 clone 方法，到底是如何实现的呢？跟 <a href="https://github.com/lodash/lodash/blob/4.17.5/lodash.js#L11078" target="_blank" rel="noopener">lodash</a> 学习一下吧！</p>
+
       
 
       
@@ -374,14 +396,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">新世界</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">js</a>
               </li>
              
@@ -395,6 +409,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">yarn 失效</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">新世界</a>
               </li>
              
               <li class="article-tag-list-item">
