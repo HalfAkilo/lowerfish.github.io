@@ -156,7 +156,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="代码-30s-adapter-篇"><a href="#代码-30s-adapter-篇" class="headerlink" title="代码 30s adapter 篇"></a>代码 30s adapter 篇</h1><p>这一部分，需要了解<a href="https://zh.wikipedia.org/zh-hans/%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0" target="_blank" rel="noopener">高阶函数</a>、<a href="https://zh.wikipedia.org/wiki/%E9%97%AD%E5%8C%85_(%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6" target="_blank" rel="noopener">闭包</a>&gt;) 、<a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array" target="_blank" rel="noopener">js 数组方法</a> 以及<a href="http://es6.ruanyifeng.com/#docs/array" target="_blank" rel="noopener">ES6 语法中新增的数组方法</a></p>
+        <p>这一部分，需要了解<a href="https://zh.wikipedia.org/zh-hans/%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0" target="_blank" rel="noopener">高阶函数</a>、<a href="https://zh.wikipedia.org/wiki/%E9%97%AD%E5%8C%85_(%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6)" target="_blank" rel="noopener">闭包</a>、<a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array" target="_blank" rel="noopener">js 数组方法</a> 以及<a href="http://es6.ruanyifeng.com/#docs/array" target="_blank" rel="noopener">ES6 语法中新增的数组方法</a></p>
 <p><a href="https://30secondsofcode.org/adapter" target="_blank" rel="noopener">原文</a> 是以提出问题、作出说明（提示）、给出代码、使用实例这样的顺序来写的。我个人喜欢这样的顺序：先给出使用实例，然后提出问题（因为方便理解），再给出提示，最后给出代码。</p>
 <h2 id="ary"><a href="#ary" class="headerlink" title="ary"></a>ary</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> firstTwoMax = ary(<span class="built_in">Math</span>.max, <span class="number">2</span>);</span><br><span class="line">[[<span class="number">2</span>, <span class="number">6</span>, <span class="string">'a'</span>], [<span class="number">8</span>, <span class="number">4</span>, <span class="number">6</span>], [<span class="number">10</span>]].map(<span class="function"><span class="params">x</span> =&gt;</span> firstTwoMax(...x)); <span class="comment">// [6, 8, 10]</span></span><br></pre></td></tr></table></figure>
 <p>实现 <code>ary</code> 函数，经过它修饰的函数，只会关注传入的前 n 个参数，其他参数会被忽略。</p>
@@ -697,14 +697,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">js</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">对象复制</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
              
@@ -718,6 +710,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">yarn 失效</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">js</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">对象复制</a>
               </li>
              
               <li class="article-tag-list-item">
