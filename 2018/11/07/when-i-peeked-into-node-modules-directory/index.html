@@ -10,18 +10,25 @@
   <link rel="dns-prefetch" href="https://yepbug.com">
   <title>
     
-    Tag: 随笔 |
+    对不起，就是要在你的 node_modules 里下毒！ |
     
     Yepbug&#39;s Blog | 萤火之未
   </title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Yepbug&#39;s Blog | 萤火之未">
-<meta property="og:url" content="https://yepbug.com/tags/随笔/index.html">
+  <meta name="description" content="今天翻到一篇旧闻，讲的是作者查阅 node_modules 文件夹时发现的“奇闻”。实际上，作者在文中描述的情形并不存在，不过，也该给依赖 node_modules 的大家敲响警钟，因为我们确实不知道 node_modules 里都装了啥。再次声明，这是在 React.js 因 left-pad 崩溃事件之后的一篇讽刺文。 ExpressExpress 和 Koa 是 Node.js 服务端开发绕">
+<meta name="keywords" content="node_modules,babel">
+<meta property="og:type" content="article">
+<meta property="og:title" content="对不起，就是要在你的 node_modules 里下毒！">
+<meta property="og:url" content="https://yepbug.com/2018/11/07/when-i-peeked-into-node-modules-directory/index.html">
 <meta property="og:site_name" content="Yepbug&#39;s Blog | 萤火之未">
+<meta property="og:description" content="今天翻到一篇旧闻，讲的是作者查阅 node_modules 文件夹时发现的“奇闻”。实际上，作者在文中描述的情形并不存在，不过，也该给依赖 node_modules 的大家敲响警钟，因为我们确实不知道 node_modules 里都装了啥。再次声明，这是在 React.js 因 left-pad 崩溃事件之后的一篇讽刺文。 ExpressExpress 和 Koa 是 Node.js 服务端开发绕">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="https://yepbug.com/assets/img/wtf.png">
+<meta property="og:updated_time" content="2018-11-07T13:55:52.672Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Yepbug&#39;s Blog | 萤火之未">
+<meta name="twitter:title" content="对不起，就是要在你的 node_modules 里下毒！">
+<meta name="twitter:description" content="今天翻到一篇旧闻，讲的是作者查阅 node_modules 文件夹时发现的“奇闻”。实际上，作者在文中描述的情形并不存在，不过，也该给依赖 node_modules 的大家敲响警钟，因为我们确实不知道 node_modules 里都装了啥。再次声明，这是在 React.js 因 left-pad 崩溃事件之后的一篇讽刺文。 ExpressExpress 和 Koa 是 Node.js 服务端开发绕">
+<meta name="twitter:image" content="https://yepbug.com/assets/img/wtf.png">
   
   <link rel="alternative" href="/atom.xml" title="Yepbug&#39;s Blog | 萤火之未" type="application/atom+xml">
   
@@ -136,64 +143,184 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-when-i-peeked-into-node-modules-directory" class="article article-type-post " itemscope="" itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/08/08/hello-world/" class="archive-article-date">
-  	<time datetime="2018-08-08T12:16:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-08</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/08/08/hello-world/">Hello World</a>
+    <h1 class="article-title" itemprop="name">
+      对不起，就是要在你的 node_modules 里下毒！
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2018/11/07/when-i-peeked-into-node-modules-directory/" class="archive-article-date">
+  	<time datetime="2018-11-07T08:05:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-07</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>今天翻到一篇<a href="https://medium.com/s/silicon-satire/i-peeked-into-my-node-modules-directory-and-you-wont-believe-what-happened-next-b89f63d21558" target="_blank" rel="noopener">旧闻</a>，讲的是作者查阅 node_modules 文件夹时发现的“奇闻”。实际上，作者在文中描述的情形并不存在，不过，也该给依赖 node_modules 的大家敲响警钟，因为我们确实不知道 node_modules 里都装了啥。<strong>再次声明，这是在 React.js 因 left-pad 崩溃事件之后的一篇讽刺文。</strong></p>
+<h2 id="Express"><a href="#Express" class="headerlink" title="Express"></a>Express</h2><p>Express 和 Koa 是 Node.js 服务端开发绕不开的两大框架。不过数数 Express 依赖了多少个包，你可能就不那么确定是不是要继续用它了。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$tree</span> node_modules/ | wc -l</span><br><span class="line">381</span><br></pre></td></tr></table></figure>
+<p>381 个包啊（<em>注：原文成文时，包的个数为 292</em>）！如果你开的车，是由将近四百种不知道什么厂产的零件构成，你慌不慌？作者查看了 Express 的依赖，有的包看着挺正常的，比如 <code>escape-html</code> 等等。不过一个 <code>yummy</code> 的包引起了作者的注意。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">├── yummy</span><br><span class="line">│ ├── LICENSE</span><br><span class="line">│ ├── README.md</span><br><span class="line">│ ├── like-tweet.js</span><br><span class="line">│ ├── index.js</span><br><span class="line">│ └── package.json</span><br></pre></td></tr></table></figure>
+<p>其中的 <code>like-tweet.js</code> 里，放的是这样的代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> http = <span class="built_in">require</span>(“http”)</span><br><span class="line">http.request(&#123;</span><br><span class="line">  method: “POST”,</span><br><span class="line">  hostname: “api.twitter.com”,</span><br><span class="line">  path: “/hotpockets/status/<span class="number">501511389320470528</span>”,</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>作者一番查证后发现，这段代码的作用就是给一条 Hot Pockets 的推特点赞~用你个包，你就把我的信息全卖了，你是魔鬼 😈 么？</p>
+<h2 id="Ember"><a href="#Ember" class="headerlink" title="Ember"></a>Ember</h2><p>Ember 源码 gzipped 之后，大小仍然有 112k；不过，在作者写这篇文章前，并没有太多人去关注 112k 里到底装了些啥玩意。作者查看 Ember 依赖的时候，发现一个叫 Glimmer 的包，占用了 95k（差不多源码的 95% 了） 的大小。不过，这个包的作用却让人很疑惑。作者 搜遍了 GitHub 和 Google，也没有找到关于这个包的介绍（现在去搜，是有东西的）。这个包包含了很多 brittanica 打头的模块，每一个模块，都有一个不知所谓的 json 文件：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"g"</span>: &#123;</span><br><span class="line">        <span class="attr">"page"</span>: <span class="number">1018</span>,</span><br><span class="line">        <span class="attr">"description"</span>: <span class="string">"The seventh letter of the US English..."</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">"ga"</span>: &#123;</span><br><span class="line">        <span class="attr">"page"</span>: <span class="number">1021</span>,</span><br><span class="line">        <span class="attr">"description"</span>: <span class="string">"a Kwa language of Ghana, spoken in Acc..."</span></span><br><span class="line">    &#125;,</span><br><span class="line">    ...</span><br><span class="line">    "glimmer": &#123;</span><br><span class="line">        "page": 1172,</span><br><span class="line">        "description": "A faint or wavering light, used pri..."</span><br><span class="line">    &#125;,</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>作者总结了下这堆文件的作用：</p>
+<p>· Ember 吹了一波 Glimmer： 轻量级、效率高<br>· 在帮助菜单里展示 “glimmer” 的定义<br>· 大家都忙着玩 Pokémon，没人关注海洋生态</p>
+<p>疯了吧。。。</p>
+<h2 id="Babel"><a href="#Babel" class="headerlink" title="Babel"></a>Babel</h2><p>如果说前面俩框架，还可以选择不去用，那 Babel 真的是 99% 的前端开发者都会用到了。Babel 本身也因为插件系统，配置问题，报错问题被人诟病过，不过，没人去关注 Babel 依赖了多少包。作者安装了 <code>babel-preset-es2015</code>，查看了下大小：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ ls node_modules | wc -l</span><br><span class="line">    90</span><br><span class="line">$ du -sh node_modules</span><br><span class="line">    17M node_modules</span><br></pre></td></tr></table></figure>
+<p>Babel 做了很多事情，道理我都懂，但它为什么有 17M 这么大？作者花了两个小时的时间，终于找到了罪魁祸首 api/node.js：</p>
+<p><img src="/assets/img/wtf.png" alt="wtf"></p>
+<p>发现原因的时候，作者差点发誓再也不碰 web 开发（：</p>
+<p>值得一提的是，Babel 社区也应该注意到了这篇文章，在这篇文章之前，node.js 文件<a href="https://github.com/babel/babel/blob/dc1f40540de11045bb4714350350e012fee4f93e/packages/babel-core/src/api/node.js" target="_blank" rel="noopener">长这样</a>，而在这篇文章引起广泛关注之后，node.js 文件<a href="https://github.com/babel/babel/blob/f36d07d30334f86412a9d2771880cb566a82a9b6/packages/babel-core/src/api/node.js" target="_blank" rel="noopener">长这样</a>。还真的画了一个人出来，而且为 Babel 的大小道歉，哈哈哈……</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">node_modules</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">新世界</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">babel</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=https://yepbug.com/2018/11/07/when-i-peeked-into-node-modules-directory/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2018/11/03/alfred-workflow-for-fe-developer/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">前端可能会需要的Alfred workflow</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-    
+  
+
+  
+    <section id="comments">
+      <div id="disqus_thread"></div>
+        <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'true'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </section>
+  
+
+  
 
 
           </div>
@@ -216,9 +343,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: true,
 		toc_hide_index: true,

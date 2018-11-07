@@ -15,18 +15,18 @@
     Yepbug&#39;s Blog | 萤火之未
   </title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="React.js Hooks 是什么？Hooks 是为 React v16.7.0-alpha 版本的一个最新更新。现在就可以用（但不建议生产环境下使用），将来大概率会被更新到正式版本里。一段简短的代码： 12345678910111213import &amp;#123; useState &amp;#125; from &apos;react&apos;;function Example() &amp;#123;  // Declare">
+  <meta name="description" content="Hooks 是为 React v16.7.0-alpha 版本的一个最新更新。现在就可以用（但不建议生产环境下使用），将来大概率会被更新到正式版本里。一段简短的代码： 12345678910111213import &amp;#123; useState &amp;#125; from &apos;react&apos;;function Example() &amp;#123;  // Declare a new state variab">
 <meta name="keywords" content="react.js,react.js hooks">
 <meta property="og:type" content="article">
 <meta property="og:title" content="React Hooks 简介">
 <meta property="og:url" content="https://yepbug.com/2018/10/30/what-is-reactjs-hook-and-how-to-use-it/index.html">
 <meta property="og:site_name" content="Yepbug&#39;s Blog | 萤火之未">
-<meta property="og:description" content="React.js Hooks 是什么？Hooks 是为 React v16.7.0-alpha 版本的一个最新更新。现在就可以用（但不建议生产环境下使用），将来大概率会被更新到正式版本里。一段简短的代码： 12345678910111213import &amp;#123; useState &amp;#125; from &apos;react&apos;;function Example() &amp;#123;  // Declare">
+<meta property="og:description" content="Hooks 是为 React v16.7.0-alpha 版本的一个最新更新。现在就可以用（但不建议生产环境下使用），将来大概率会被更新到正式版本里。一段简短的代码： 12345678910111213import &amp;#123; useState &amp;#125; from &apos;react&apos;;function Example() &amp;#123;  // Declare a new state variab">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-10-30T14:34:35.344Z">
+<meta property="og:updated_time" content="2018-11-07T12:45:43.372Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="React Hooks 简介">
-<meta name="twitter:description" content="React.js Hooks 是什么？Hooks 是为 React v16.7.0-alpha 版本的一个最新更新。现在就可以用（但不建议生产环境下使用），将来大概率会被更新到正式版本里。一段简短的代码： 12345678910111213import &amp;#123; useState &amp;#125; from &apos;react&apos;;function Example() &amp;#123;  // Declare">
+<meta name="twitter:description" content="Hooks 是为 React v16.7.0-alpha 版本的一个最新更新。现在就可以用（但不建议生产环境下使用），将来大概率会被更新到正式版本里。一段简短的代码： 12345678910111213import &amp;#123; useState &amp;#125; from &apos;react&apos;;function Example() &amp;#123;  // Declare a new state variab">
   
   <link rel="alternative" href="/atom.xml" title="Yepbug&#39;s Blog | 萤火之未" type="application/atom+xml">
   
@@ -161,7 +161,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="React-js-Hooks-是什么？"><a href="#React-js-Hooks-是什么？" class="headerlink" title="React.js Hooks 是什么？"></a>React.js Hooks 是什么？</h1><p>Hooks 是为 React v16.7.0-alpha 版本的一个最新更新。现在就可以用（但不建议生产环境下使用），将来大概率会被更新到正式版本里。<br>一段简短的代码：</p>
+        <p>Hooks 是为 React v16.7.0-alpha 版本的一个最新更新。现在就可以用（但不建议生产环境下使用），将来大概率会被更新到正式版本里。<br>一段简短的代码：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; useState &#125; <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Example</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// Declare a new state variable, which we'll call "count"</span></span><br><span class="line">  <span class="keyword">const</span> [count, setCount] = useState(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">      &lt;p&gt;You clicked &#123;count&#125; times&lt;<span class="regexp">/p&gt;</span></span><br><span class="line"><span class="regexp">      &lt;button onClick=&#123;() =&gt; setCount(count + 1)&#125;&gt;Click me&lt;/</span>button&gt;</span><br><span class="line">    &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">  );</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
 <p><code>useState</code> 这个函数，只看名字，就差不多猜到意思了：之前，我们在归类 React 组件的时候，常常将组件分为两类，一类是有状态组件，一般是使用继承 <code>Component</code> 或是 <code>PureComponent</code> 的方式来实现的，一类是无状态组件，一般就是一个返回 <code>jsx</code> function。但现在，我们不能把 <code>function</code> 组件成为无状态组件了，</p>
 <h2 id="为什么需要-hooks"><a href="#为什么需要-hooks" class="headerlink" title="为什么需要 hooks"></a>为什么需要 hooks</h2><h3 id="组件间的状态逻辑很难复用"><a href="#组件间的状态逻辑很难复用" class="headerlink" title="组件间的状态逻辑很难复用"></a>组件间的状态逻辑很难复用</h3><p>之前，复用逻辑的方式是<a href="https://reactjs.org/docs/render-props.html" target="_blank" rel="noopener">render props</a> 或者是 <a href="https://reactjs.org/docs/higher-order-components.html" target="_blank" rel="noopener">高阶组件</a>。不过，高阶组件的问题，用 React 开发者工具审查元素看一下就会发现 —— wrapper hell —— 组件一层套一层。ps，<a href="https://reactjs.org/docs/react-without-es6.html#mixins" target="_blank" rel="noopener">mixins</a> 心里苦~ 当年要用高阶组件代替我的时候，你可不是这么说的啊。</p>
@@ -401,6 +401,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">js</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">对象复制</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
              
@@ -417,11 +425,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">js</a>
+                <a href="javascript:void(0)" class="js-tag color4">react.js</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">对象复制</a>
+                <a href="javascript:void(0)" class="js-tag color5">react.js hooks</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -437,11 +445,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">react.js</a>
+                <a href="javascript:void(0)" class="js-tag color3">node_modules</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">react.js hooks</a>
+                <a href="javascript:void(0)" class="js-tag color1">babel</a>
               </li>
             
             <div class="clearfix"></div>
