@@ -882,7 +882,7 @@
 <p>另外，在 web 开发中，我们经常引入 reset.css 来去除浏览器的固有样式，比如</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">html</span><span class="selector-class">.border-box</span> *,</span><br><span class="line"><span class="selector-tag">html</span><span class="selector-class">.border-box</span> *<span class="selector-pseudo">:before</span>,</span><br><span class="line"><span class="selector-tag">html</span><span class="selector-class">.border-box</span> *<span class="selector-pseudo">:after</span> &#123;</span><br><span class="line">  <span class="attribute">-moz-box-sizing</span>: border-box;</span><br><span class="line">  <span class="attribute">-webkit-box-sizing</span>: border-box;</span><br><span class="line">  <span class="attribute">box-sizing</span>: border-box;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>然而，小程序并不支持 通配符 <code>*</code>，也没有好的方式来对 wxss 进行转义。如果是使用 mpvue 进行开发，还可以引入插件来达成目标。如果老项目没法迁了，下面的代码也能解决部分问题：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.border-box</span> <span class="selector-tag">view</span> &#123;</span><br><span class="line">  <span class="attribute">box-sizing</span>: border-box;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.border-box</span> <span class="selector-tag">view</span><span class="comment">/* 以及其他需要 border-box的元素*/</span> &#123;</span><br><span class="line">  <span class="attribute">box-sizing</span>: border-box;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="vscode-提示-ts-应为“-”"><a href="#vscode-提示-ts-应为“-”" class="headerlink" title="vscode 提示 [ts] 应为“;”"></a>vscode 提示 <code>[ts] 应为“;”</code></h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">from</span> <span class="string">'./Foo'</span>;</span><br></pre></td></tr></table></figure>
 <p>上面这段 js 代码会在 vscode 报一个 <code>[ts] 应为“;”</code> 的错误。这段代码本身没错，报错只是因为 typescript 目前还不支持 <code>export default from</code> 语法 <a href="https://github.com/Microsoft/TypeScript/issues/4813#issuecomment-312045164" target="_blank" rel="noopener">参见</a>。如果你是用 babel 来编译代码，那这个错误可以无视。如果忍不了报错，可以用下面的写法代替：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Affix <span class="keyword">from</span> <span class="string">'./Foo'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> Foo;</span><br></pre></td></tr></table></figure>
@@ -892,7 +892,7 @@
 <h2 id="eslint-报错-‘React-is-defined-but-never-used-no-unused-vars’"><a href="#eslint-报错-‘React-is-defined-but-never-used-no-unused-vars’" class="headerlink" title="eslint 报错 ‘React is defined but never used no-unused-vars’"></a>eslint 报错 ‘React is defined but never used no-unused-vars’</h2><p>我承认这个报错是因为我自己傻，不过<a href="https://github.com/yannickcr/eslint-plugin-react/issues/1463" target="_blank" rel="noopener">有人和我一样傻</a>，哈哈哈~</p>
 <h2 id="nvm-安装新版本-node-后，yarn-命令失效"><a href="#nvm-安装新版本-node-后，yarn-命令失效" class="headerlink" title="nvm 安装新版本 node 后，yarn 命令失效"></a>nvm 安装新版本 node 后，yarn 命令失效</h2><p>这可能是因为 yarn 是通过 <code>npm install -g yarn</code> 命令来安装的。这种安装方式，yarn 是跟着 node 版本走的。每装一个新版本，都有去重复下载 yarn。使用 <code>brew install yarn --without-node</code> 来安装可解决这种问题。这种方式可以解决 yarn 的问题，不过，其他的全局包比如 hexo-cli，vue-cli 等，因为除了 npm 之外，没有其他的安装方式，所以，需要每次更新之后，都去重新安装一下全局包。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvm install 10.10.0 --reinstall-packages-from=10.5.0</span><br></pre></td></tr></table></figure>
-<p>上面的命令在安装 10.10 版本的 node 时，会自动安装在 10.5 版本时安装的全局包。如果还不能解决问题，请参考<a href="https://zhuanlan.zhihu.com/p/31927735" target="_blank" rel="noopener">这里</a>。</p>
+<p>上面的命令在安装 10.10 版本的 node 时，会自动安装在 10.5 版本时安装的全局包。如果还不能解决问题，请参考<a href="https://zhuanlan.zhihu.com/p/31927735" target="_blank" rel="noopener">这里</a>。不过，如果不是为了体验新特性，Node.js 一般不需要一直紧跟版本更新吧。</p>
 
       
 
@@ -1123,7 +1123,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">vue-cli-3</a>
+                <a href="javascript:void(0)" class="js-tag color2">30-seconds-of-code 中文</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">adapter</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1132,14 +1136,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">新世界</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">30-seconds-of-code 中文</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">adapter</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1167,6 +1163,18 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">前端 bug</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">yarn 失效</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">vue-cli-3</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">airbnb</a>
               </li>
              
@@ -1179,11 +1187,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">前端 bug</a>
+                <a href="javascript:void(0)" class="js-tag color4">react.js</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">yarn 失效</a>
+                <a href="javascript:void(0)" class="js-tag color5">react.js hooks</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1192,14 +1200,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">babel</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">react.js</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">react.js hooks</a>
               </li>
             
             <div class="clearfix"></div>
