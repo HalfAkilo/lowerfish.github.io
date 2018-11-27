@@ -23,7 +23,7 @@
 <meta property="og:site_name" content="Yepbug&#39;s Blog | 萤火之未">
 <meta property="og:description" content="git 对文件名大小写不敏感如果是个人的项目，可以直接修改默认的配置，git config core.ignorecase false。但是这种方式非常不推荐，因为不同的系统，对于文件名大小的敏感程度不一样（macOS 下，默认不支持，而在 Linux 系统中，默认支持）。 如果是团队的项目，为了避免影响其他人，最好不要去修改配置。如果想把 ‘foo’ 文件重命名为 Foo，需要运行 git mv">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-11-16T11:53:59.999Z">
+<meta property="og:updated_time" content="2018-11-17T08:11:21.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="前端 “bug” 和小技巧">
 <meta name="twitter:description" content="git 对文件名大小写不敏感如果是个人的项目，可以直接修改默认的配置，git config core.ignorecase false。但是这种方式非常不推荐，因为不同的系统，对于文件名大小的敏感程度不一样（macOS 下，默认不支持，而在 Linux 系统中，默认支持）。 如果是团队的项目，为了避免影响其他人，最好不要去修改配置。如果想把 ‘foo’ 文件重命名为 Foo，需要运行 git mv">
@@ -184,6 +184,7 @@
 <h2 id="nvm-安装新版本-node-后，yarn-命令失效"><a href="#nvm-安装新版本-node-后，yarn-命令失效" class="headerlink" title="nvm 安装新版本 node 后，yarn 命令失效"></a>nvm 安装新版本 node 后，yarn 命令失效</h2><p>这可能是因为 yarn 是通过 <code>npm install -g yarn</code> 命令来安装的。这种安装方式，yarn 是跟着 node 版本走的。每装一个新版本，都有去重复下载 yarn。使用 <code>brew install yarn --without-node</code> 来安装可解决这种问题。这种方式可以解决 yarn 的问题，不过，其他的全局包比如 hexo-cli，vue-cli 等，因为除了 npm 之外，没有其他的安装方式，所以，需要每次更新之后，都去重新安装一下全局包。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvm install 10.10.0 --reinstall-packages-from=10.5.0</span><br></pre></td></tr></table></figure>
 <p>上面的命令在安装 10.10 版本的 node 时，会自动安装在 10.5 版本时安装的全局包。如果还不能解决问题，请参考<a href="https://zhuanlan.zhihu.com/p/31927735" target="_blank" rel="noopener">这里</a>。不过，如果不是为了体验新特性，Node.js 一般不需要一直紧跟版本更新吧。</p>
+<h2 id="Provisional-headers-are-shown"><a href="#Provisional-headers-are-shown" class="headerlink" title="Provisional headers are shown"></a>Provisional headers are shown</h2><p>chrome://net-internals</p>
 
       
 
@@ -314,23 +315,22 @@
   
 
   
+    <section id="comments">
+      <div id="disqus_thread"></div>
+        <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'true'; // required: replace example with your forum shortname
 
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </section>
   
-  <div id="gitment-ctn"></div>
-<link rel="stylesheet" href="//imsun.github.io/gitment/style/default.css">
-<script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
-<script>
-  var gitment = new Gitment({
-    id: "Tue Sep 25 2018 13:08:13 GMT+0800",
-    owner: 'yepbug',
-    repo: 'yepbug.github.io',
-    oauth: {
-      client_id: '4fed3e609286883356ce',
-      client_secret: '8144f597a86cec6da60cb40547dffb46e47ae9c5',
-    },
-  })
-  gitment.render('gitment-ctn')
-</script>
 
   
 
@@ -359,7 +359,7 @@
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
-		open_in_new: false,
+		open_in_new: true,
 		toc_hide_index: true,
 		root: "/",
 		innerArchive: true,
@@ -409,6 +409,18 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">vue-cli-3</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">js</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">对象复制</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">30-seconds-of-code 中文</a>
               </li>
              
@@ -429,11 +441,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">js</a>
+                <a href="javascript:void(0)" class="js-tag color2">前端 bug</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">对象复制</a>
+                <a href="javascript:void(0)" class="js-tag color3">yarn 失效</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">node_modules</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">babel</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -449,15 +469,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">前端 bug</a>
+                <a href="javascript:void(0)" class="js-tag color4">react.js</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">yarn 失效</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">vue-cli-3</a>
+                <a href="javascript:void(0)" class="js-tag color5">react.js hooks</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -470,22 +486,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">prefer-default-export</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">react.js</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">react.js hooks</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">node_modules</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">babel</a>
               </li>
             
             <div class="clearfix"></div>

@@ -136,6 +136,98 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-what-is-the-benefit-of-prefer-default-export" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/28/what-is-the-benefit-of-prefer-default-export/">prefer-default-export 有什么好处？</a>
+    </h1>
+  
+
+        
+        <a href="/2018/08/28/what-is-the-benefit-of-prefer-default-export/" class="archive-article-date">
+  	<time datetime="2018-08-28T05:32:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-28</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><code>eslint</code> 目前是众多前端项目选择的 lint 工具。Airbnb 的代码规范，应该算是众多代码规范中最为流行的了。不过，Airbnb 的某些规范，也的确让人不爽。<code>prefer-default-export</code> 算是一个。有人专门开了个<a href="https://github.com/airbnb/javascript/issues/1365" target="_blank" rel="noopener">issue</a> 来追问规范的维护者，为啥要有这个标准。这里有一篇 ts 中不用 export default 的说明。<a href="https://jkchao.github.io/typescript-book-chinese/tips/avoidExportDefault.html" target="_blank" rel="noopener">export default 被认为是有害的</a></p>
+<p>issue 的发起者认为，default export 让写代码变得更被动。<code>prefer-default-export</code> 是当你在单文件中使用 <code>export const foo</code>/<code>export class foo</code> 只进行一个导出时，给出错误提示。不过，就算你在一个文件中会进行多个导出，在写第一行 <code>export const foo</code> 时，还是避免不了错误提示。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 有错误提示</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> foo = <span class="string">'foo'</span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 没有错误提示</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> foo = <span class="string">'foo'</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> bar = <span class="string">'bar'</span>;</span><br></pre></td></tr></table></figure>
+<p>有人专门写了篇<a href="https://blog.neufund.org/why-we-have-banned-default-exports-and-you-should-do-the-same-d51fdc2cf2ad" target="_blank" rel="noopener">文章</a>，列举了项目中避免使用 default export 的几个原因，获得了五千多赞。欢迎去围观原文，我记录一下我深以为然的几点：</p>
+<h1 id="不用默认导出的好处"><a href="#不用默认导出的好处" class="headerlink" title="不用默认导出的好处"></a>不用默认导出的好处</h1><h2 id="导入更便捷"><a href="#导入更便捷" class="headerlink" title="导入更便捷"></a>导入更便捷</h2><p>默认导出没有名字，与之相对的，命名导出是有名字的（好像没什么不对 👌）。有名字的话，你的 IDE 就可以帮你找到并自动引入依赖。如图（vscode）：</p>
+<p><img src="/assets/img/vscode.gif" alt="vscode"></p>
+<h2 id="重构更简单"><a href="#重构更简单" class="headerlink" title="重构更简单"></a>重构更简单</h2><p>在大型项目中，默认导出让重构变得困难“重重”，因为导入的时候，可以随意命名。代码示例如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// in file exports.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;...&#125;</span><br><span class="line"><span class="comment">// in file import1.js</span></span><br><span class="line"><span class="keyword">import</span> doSomething <span class="keyword">from</span> <span class="string">"./exports.js"</span></span><br><span class="line"><span class="comment">// in file import2.js</span></span><br><span class="line"><span class="keyword">import</span> doSmth <span class="keyword">from</span> <span class="string">"./exports.js"</span></span><br></pre></td></tr></table></figure>
+<h2 id="tree-shake-减小文件体积"><a href="#tree-shake-减小文件体积" class="headerlink" title="tree shake 减小文件体积"></a>tree shake 减小文件体积</h2><p>当不需要导出所有文件的时候，使用命名导出能够显著减小文件体积。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// do not try this</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  propertyA: <span class="string">'A'</span>,</span><br><span class="line">  propertyB: <span class="string">'B'</span>,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// do this instead</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> propertyA = <span class="string">'A'</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> propertyB = <span class="string">'B'</span>;</span><br></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">airbnb</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">eslint</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">prefer-default-export</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/08/28/what-is-the-benefit-of-prefer-default-export/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-hello-world" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
@@ -245,7 +337,7 @@
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
-		open_in_new: false,
+		open_in_new: true,
 		toc_hide_index: true,
 		root: "/",
 		innerArchive: true,
@@ -295,6 +387,18 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">vue-cli-3</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">js</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">对象复制</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">30-seconds-of-code 中文</a>
               </li>
              
@@ -315,11 +419,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">js</a>
+                <a href="javascript:void(0)" class="js-tag color2">前端 bug</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">对象复制</a>
+                <a href="javascript:void(0)" class="js-tag color3">yarn 失效</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">node_modules</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">babel</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -335,15 +447,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">前端 bug</a>
+                <a href="javascript:void(0)" class="js-tag color4">react.js</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">yarn 失效</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">vue-cli-3</a>
+                <a href="javascript:void(0)" class="js-tag color5">react.js hooks</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -356,22 +464,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">prefer-default-export</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">react.js</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">react.js hooks</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">node_modules</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">babel</a>
               </li>
             
             <div class="clearfix"></div>
