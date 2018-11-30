@@ -10,23 +10,23 @@
   <link rel="dns-prefetch" href="https://yepbug.com">
   <title>
     
-    typescript 使用小 tip |
+    TypeScript 使用小 tip |
     
     Yepbug&#39;s Blog | 萤火之未
   </title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="class 的实现与标准不一致123456789101112class Person &amp;#123;  name: string;  constructor(name) &amp;#123;    this.name = name;  &amp;#125;  say() &amp;#123;    return this.name;  &amp;#125;&amp;#125;const p = new Person(&apos;cat&apos;);p.sa">
-<meta name="keywords" content="typescript">
+  <meta name="description" content="typescript 中 class 与标准不一致ES6 标准中，class 中的方法为不可遍历的，但在 ts 中，没有这个限制。经过 Babel 编译的代码，class 中的方法也是不可遍历的。这一区别一般不会造成太大影响。 1234567891011121314// typescriptclass Person &amp;#123;  name: string;  constructor(name)">
+<meta name="keywords" content="TypeScript">
 <meta property="og:type" content="article">
-<meta property="og:title" content="typescript 使用小 tip">
+<meta property="og:title" content="TypeScript 使用小 tip">
 <meta property="og:url" content="https://yepbug.com/2018/11/29/typescript使用小tip/index.html">
 <meta property="og:site_name" content="Yepbug&#39;s Blog | 萤火之未">
-<meta property="og:description" content="class 的实现与标准不一致123456789101112class Person &amp;#123;  name: string;  constructor(name) &amp;#123;    this.name = name;  &amp;#125;  say() &amp;#123;    return this.name;  &amp;#125;&amp;#125;const p = new Person(&apos;cat&apos;);p.sa">
+<meta property="og:description" content="typescript 中 class 与标准不一致ES6 标准中，class 中的方法为不可遍历的，但在 ts 中，没有这个限制。经过 Babel 编译的代码，class 中的方法也是不可遍历的。这一区别一般不会造成太大影响。 1234567891011121314// typescriptclass Person &amp;#123;  name: string;  constructor(name)">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-11-29T08:46:58.000Z">
+<meta property="og:updated_time" content="2018-11-30T05:47:34.346Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="typescript 使用小 tip">
-<meta name="twitter:description" content="class 的实现与标准不一致123456789101112class Person &amp;#123;  name: string;  constructor(name) &amp;#123;    this.name = name;  &amp;#125;  say() &amp;#123;    return this.name;  &amp;#125;&amp;#125;const p = new Person(&apos;cat&apos;);p.sa">
+<meta name="twitter:title" content="TypeScript 使用小 tip">
+<meta name="twitter:description" content="typescript 中 class 与标准不一致ES6 标准中，class 中的方法为不可遍历的，但在 ts 中，没有这个限制。经过 Babel 编译的代码，class 中的方法也是不可遍历的。这一区别一般不会造成太大影响。 1234567891011121314// typescriptclass Person &amp;#123;  name: string;  constructor(name)">
   
   <link rel="alternative" href="/atom.xml" title="Yepbug&#39;s Blog | 萤火之未" type="application/atom+xml">
   
@@ -148,7 +148,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      typescript 使用小 tip
+      TypeScript 使用小 tip
     </h1>
   
 
@@ -161,8 +161,26 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="class-的实现与标准不一致"><a href="#class-的实现与标准不一致" class="headerlink" title="class 的实现与标准不一致"></a>class 的实现与标准不一致</h2><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> Person &#123;</span><br><span class="line">  name: <span class="built_in">string</span>;</span><br><span class="line">  <span class="keyword">constructor</span>(<span class="params">name</span>) &#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name;</span><br><span class="line">  &#125;</span><br><span class="line">  say() &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.name;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> p = <span class="keyword">new</span> Person(<span class="string">'cat'</span>);</span><br><span class="line">p.say();</span><br><span class="line"><span class="built_in">Object</span>.keys(Person.prototype);</span><br></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Animal</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(name) &#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name;</span><br><span class="line">  &#125;</span><br><span class="line">  say() &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.name;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> a = <span class="keyword">new</span> Animal(<span class="string">'cat'</span>);</span><br><span class="line">a.say();</span><br><span class="line"><span class="built_in">Object</span>.keys(Animal.prototype);</span><br></pre></td></tr></table></figure>
+        <h2 id="typescript-中-class-与标准不一致"><a href="#typescript-中-class-与标准不一致" class="headerlink" title="typescript 中 class 与标准不一致"></a>typescript 中 class 与标准不一致</h2><p>ES6 标准中，<code>class</code> 中的方法为不可遍历的，但在 ts 中，没有这个限制。经过 Babel 编译的代码，<code>class</code> 中的方法也是不可遍历的。这一区别一般不会造成太大影响。</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// typescript</span></span><br><span class="line"><span class="keyword">class</span> Person &#123;</span><br><span class="line">  name: <span class="built_in">string</span>;</span><br><span class="line">  <span class="keyword">constructor</span>(<span class="params">name</span>) &#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name;</span><br><span class="line">  &#125;</span><br><span class="line">  t;</span><br><span class="line">  say() &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.name;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> p = <span class="keyword">new</span> Person(<span class="string">'cat'</span>);</span><br><span class="line">p.say();</span><br><span class="line"><span class="built_in">Object</span>.keys(Person.prototype); <span class="comment">// ["say"]</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// javascript</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Animal</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(name) &#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name;</span><br><span class="line">  &#125;</span><br><span class="line">  say() &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.name;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> a = <span class="keyword">new</span> Animal(<span class="string">'cat'</span>);</span><br><span class="line">a.say();</span><br><span class="line"><span class="built_in">Object</span>.keys(Animal.prototype); <span class="comment">// []</span></span><br></pre></td></tr></table></figure>
+<h2 id="TypeScript-中的-public，private-不是真的"><a href="#TypeScript-中的-public，private-不是真的" class="headerlink" title="TypeScript 中的 public，private 不是真的"></a>TypeScript 中的 public，private 不是真的</h2><p>像下面的代码这样，<code>Person</code> 的 <code>say</code> 方法虽然是 <code>private</code> 的，lint 工具也能够给出错误提示，但事实上，无论是使用 public 还是 private 访问修饰符，都只能限制你写代码时的行为，实际运行的时候没差别。</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> Person &#123;</span><br><span class="line">  <span class="keyword">private</span> say() &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">'say'</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> p = <span class="keyword">new</span> Person();</span><br><span class="line">p.say(); <span class="comment">// say</span></span><br></pre></td></tr></table></figure>
+<p>编译后的代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 修饰符是 public，private，protected 时，</span></span><br><span class="line"><span class="comment">// 编译后的代码是一样的</span></span><br><span class="line"><span class="keyword">var</span> Person = <span class="comment">/** @class */</span> (<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line">  Person.prototype.say = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">'say'</span>;</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">return</span> Person;</span><br><span class="line">&#125;)();</span><br><span class="line"><span class="keyword">var</span> p = <span class="keyword">new</span> Person();</span><br><span class="line">p.say();</span><br></pre></td></tr></table></figure>
+<h2 id="枚举没想象中那么美好"><a href="#枚举没想象中那么美好" class="headerlink" title="枚举没想象中那么美好"></a>枚举没想象中那么美好</h2><p>下面的代码是官方文档中，讲解 <code>enum</code> 使用的例子：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> Direction &#123;</span><br><span class="line">  Up,</span><br><span class="line">  Down,</span><br><span class="line">  Left,</span><br><span class="line">  Right,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这段代码看着非常简洁，可是编译之后，代码会变成这么大一坨：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Direction;</span><br><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params">Direction</span>) </span>&#123;</span><br><span class="line">  Direction[(Direction[<span class="string">'Up'</span>] = <span class="number">0</span>)] = <span class="string">'Up'</span>;</span><br><span class="line">  Direction[(Direction[<span class="string">'Down'</span>] = <span class="number">1</span>)] = <span class="string">'Down'</span>;</span><br><span class="line">  Direction[(Direction[<span class="string">'Left'</span>] = <span class="number">2</span>)] = <span class="string">'Left'</span>;</span><br><span class="line">  Direction[(Direction[<span class="string">'Right'</span>] = <span class="number">3</span>)] = <span class="string">'Right'</span>;</span><br><span class="line">&#125;)(Direction || (Direction = &#123;&#125;));</span><br></pre></td></tr></table></figure>
+<p>如果不用枚举，实现相同功能的 JS 代码：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> Direction = &#123;</span><br><span class="line">  Up: <span class="number">0</span>,</span><br><span class="line">  Down: <span class="number">1</span>,</span><br><span class="line">  Left: <span class="number">2</span>,</span><br><span class="line">  Right: <span class="number">3</span>,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>编译之后的代码，几乎没有什么差别：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Direction = &#123;</span><br><span class="line">  Up: <span class="number">0</span>,</span><br><span class="line">  Down: <span class="number">1</span>,</span><br><span class="line">  Left: <span class="number">2</span>,</span><br><span class="line">  Right: <span class="number">3</span>,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>前端同学常常把各种缩小代码体积的工具挂在嘴边，有没有关注过代码本身呢？</p>
+<h2 id="readonly-可能跟想象的不太一样"><a href="#readonly-可能跟想象的不太一样" class="headerlink" title="readonly 可能跟想象的不太一样"></a>readonly 可能跟想象的不太一样</h2><p><code>readonly</code> 翻译为只读，但是实际跑起来的时候呢？</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> info = &#123;</span><br><span class="line">  name: <span class="string">'Gakki'</span>,</span><br><span class="line">  age: <span class="number">18</span>,</span><br><span class="line">  lover: <span class="string">'萤火之未'</span>,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">class</span> Person &#123;</span><br><span class="line">  readonly info: object;</span><br><span class="line">  <span class="keyword">constructor</span>(<span class="params">info</span>) &#123;</span><br><span class="line">    <span class="keyword">this</span>.info = info;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> p = <span class="keyword">new</span> Person(info);</span><br><span class="line">p.info.lover = <span class="string">'No one'</span>;</span><br><span class="line">p.info.lover; <span class="comment">// 'No one'</span></span><br></pre></td></tr></table></figure>
+<p>上面的代码中，虽然 Gakki 的信息被描述为 <code>readonly</code>，但是 lover 属性还是会被别有用心的人修改；为了避免这种可怕的情况发生，只要使用 <code>Object.freeze</code> 把信息真的变为只读，就再也没有人可以抢走我的 Gakki：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> info = <span class="built_in">Object</span>.freeze(&#123;</span><br><span class="line">  name: <span class="string">'Gakki'</span>,</span><br><span class="line">  age: <span class="number">18</span>,</span><br><span class="line">  lover: <span class="string">'萤火之未'</span>,</span><br><span class="line">&#125;);</span><br><span class="line"><span class="keyword">class</span> Person &#123;</span><br><span class="line">  readonly info: object;</span><br><span class="line">  <span class="keyword">constructor</span>(<span class="params">info</span>) &#123;</span><br><span class="line">    <span class="keyword">this</span>.info = info;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> p = <span class="keyword">new</span> Person(<span class="string">'lucy'</span>);</span><br><span class="line">p.info.lover = <span class="string">'No one'</span>;</span><br><span class="line">p.info.lover; <span class="comment">// 萤火之未</span></span><br></pre></td></tr></table></figure>
 
       
 
@@ -176,7 +194,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">typescript</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">TypeScript</a>
         		</li>
       		
 		</ul>
@@ -382,11 +400,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">macOS APP</a>
+                <a href="javascript:void(0)" class="js-tag color5">vue-cli-3</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">vue-cli-3</a>
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -398,7 +416,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+                <a href="javascript:void(0)" class="js-tag color5">macOS APP</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -422,7 +440,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">typescript</a>
+                <a href="javascript:void(0)" class="js-tag color1">TypeScript</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -431,14 +449,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">react.js hooks</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">node_modules</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">babel</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -451,6 +461,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">prefer-default-export</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">node_modules</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">babel</a>
               </li>
              
               <li class="article-tag-list-item">
