@@ -136,6 +136,81 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-typescript使用小tip" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/11/29/typescript使用小tip/">typescript 使用小 tip</a>
+    </h1>
+  
+
+        
+        <a href="/2018/11/29/typescript使用小tip/" class="archive-article-date">
+  	<time datetime="2018-11-29T08:44:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-29</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="class-的实现与标准不一致"><a href="#class-的实现与标准不一致" class="headerlink" title="class 的实现与标准不一致"></a>class 的实现与标准不一致</h2><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> Person &#123;</span><br><span class="line">  name: <span class="built_in">string</span>;</span><br><span class="line">  <span class="keyword">constructor</span>(<span class="params">name</span>) &#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name;</span><br><span class="line">  &#125;</span><br><span class="line">  say() &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.name;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> p = <span class="keyword">new</span> Person(<span class="string">'cat'</span>);</span><br><span class="line">p.say();</span><br><span class="line"><span class="built_in">Object</span>.keys(Person.prototype);</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Animal</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(name) &#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name;</span><br><span class="line">  &#125;</span><br><span class="line">  say() &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.name;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> a = <span class="keyword">new</span> Animal(<span class="string">'cat'</span>);</span><br><span class="line">a.say();</span><br><span class="line"><span class="built_in">Object</span>.keys(Animal.prototype);</span><br></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">typescript</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/11/29/typescript使用小tip/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-f-k-nubia-x" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
@@ -318,7 +393,7 @@
       
         <p>Mac 上的软件推荐：</p>
 <h2 id="Homebrew"><a href="#Homebrew" class="headerlink" title="Homebrew"></a><a href="https://brew.sh/" target="_blank" rel="noopener">Homebrew</a></h2><p>简介就是 “macOS 缺失的软件包的管理器”，以下推荐的所有软件都可以通过 Homebrew 安装。</p>
-<h2 id="alfred"><a href="#alfred" class="headerlink" title="alfred"></a>alfred</h2><p>看多很多篇推荐 Mac 软件的文章，几乎每次都有它，提高工作效率的不二之选。</p>
+<h2 id="alfred"><a href="#alfred" class="headerlink" title="alfred"></a><a href="https://www.alfredapp.com/" target="_blank" rel="noopener">alfred</a></h2><p>看多很多篇推荐 Mac 软件的文章，几乎每次都有它，提高工作效率的不二之选。</p>
 <h2 id="Appcleaner"><a href="#Appcleaner" class="headerlink" title="Appcleaner"></a><a href="https://freemacsoft.net/appcleaner/" target="_blank" rel="noopener">Appcleaner</a></h2><p>如果你有卸载不掉的软件，或者是怕软件卸载不干净，建议使用这个不要钱的工具。</p>
 <h2 id="cheatsheet"><a href="#cheatsheet" class="headerlink" title="cheatsheet"></a><a href="https://www.mediaatelier.com/CheatSheet/" target="_blank" rel="noopener">cheatsheet</a></h2><p>适合记不住各种快捷键的人，比如我</p>
 <h2 id="ffmpeg"><a href="#ffmpeg" class="headerlink" title="ffmpeg"></a><a href="https://www.ffmpeg.org/" target="_blank" rel="noopener">ffmpeg</a></h2><p>我是用来把 GIF 转为 video。</p>
@@ -599,7 +674,7 @@
 <h2 id="Can-I-Use"><a href="#Can-I-Use" class="headerlink" title="Can I Use"></a><a href="https://github.com/willfarrell/alfred-caniuse-workflow" target="_blank" rel="noopener">Can I Use</a></h2><p>查询<a href="https://caniuse.com/" target="_blank" rel="noopener">Can I Use</a> API，考虑到浏览器兼容性的时候，使用较多。</p>
 <h2 id="DevDocs"><a href="#DevDocs" class="headerlink" title="DevDocs"></a><a href="https://github.com/yannickglt/alfred-devdocs" target="_blank" rel="noopener">DevDocs</a></h2><p>查询<a href="https://devdocs.io/" target="_blank" rel="noopener">DevDocs</a>文档。当然，你也可以选择 Dash，只不过这个是完全免费的。使用前，可以先使用 <code>cdoc</code> 命令，配置文档。</p>
 <h2 id="Faker"><a href="#Faker" class="headerlink" title="Faker"></a><a href="http://www.alfredforum.com/topic/5959-an-alfred-workflow-to-generate-fake-data/" target="_blank" rel="noopener">Faker</a></h2><p>当你需要自己造数据的时候，Faker 能造名字（包括中文名字）、信用卡号、手机号等等。</p>
-<h2 id="IP-Address"><a href="#IP-Address" class="headerlink" title="IP Address"></a><a href="http://dferg.us/ip-address-workflow/" target="_blank" rel="noopener">IP Address</a></h2><p>查询本机 IP 地址。</p>
+<h2 id="IP-Address"><a href="#IP-Address" class="headerlink" title="IP Address"></a><a href="https://github.com/alexchantastic/alfred-ip-address-workflow" target="_blank" rel="noopener">IP Address</a></h2><p>查询本机 IP 地址。</p>
 <h2 id="Stack-Overflow"><a href="#Stack-Overflow" class="headerlink" title="Stack Overflow"></a><a href="https://github.com/xhinking/Alfred" target="_blank" rel="noopener">Stack Overflow</a></h2><p>在 <a href="https://stackoverflow.com" target="_blank" rel="noopener">Stack Overflow</a> 查询问题。</p>
 <h2 id="Terminal-Finder"><a href="#Terminal-Finder" class="headerlink" title="Terminal Finder"></a><a href="https://github.com/LeEnno/alfred-terminalfinder" target="_blank" rel="noopener">Terminal Finder</a></h2><p>在 <code>Finder</code> 中打开 <code>terminal</code> 或者是 <code>iterm</code> 中的目录，或者是在当前目录下，打开<code>terminal</code> 或者是 <code>iterm</code>。</p>
 <h2 id="有道翻译"><a href="#有道翻译" class="headerlink" title="有道翻译"></a><a href="http://www.packal.org/workflow/youdao-alfred" target="_blank" rel="noopener">有道翻译</a></h2><p>支持中英日相互翻译，可以自定义快捷按键。</p>
@@ -938,107 +1013,6 @@
 
 
   
-    <article id="post-tricks-of-fe" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/25/tricks-of-fe/">前端 “bug” 和小技巧</a>
-    </h1>
-  
-
-        
-        <a href="/2018/09/25/tricks-of-fe/" class="archive-article-date">
-  	<time datetime="2018-09-25T05:08:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-25</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="git-对文件名大小写不敏感"><a href="#git-对文件名大小写不敏感" class="headerlink" title="git 对文件名大小写不敏感"></a><code>git</code> 对文件名大小写不敏感</h2><p>如果是个人的项目，可以直接修改默认的配置，<code>git config core.ignorecase false</code>。但是这种方式非常不推荐，因为不同的系统，对于文件名大小的敏感程度不一样（macOS 下，默认不支持，而在 Linux 系统中，默认支持）。</p>
-<p>如果是团队的项目，为了避免影响其他人，最好不要去修改配置。如果想把 ‘foo’ 文件重命名为 <code>Foo</code>，需要运行 <code>git mv foo Tmp</code> <code>git mv Tmp Foo</code>。注意，因为 <code>git</code> 是大小写不敏感的，<code>foo</code> <code>Foo</code> 被认为是同一个文件，所以直接运行 <code>git mv foo Foo</code>，会报错。</p>
-<h2 id="微信小程序-last-of-type-选择器“失灵”"><a href="#微信小程序-last-of-type-选择器“失灵”" class="headerlink" title="微信小程序:last-of-type 选择器“失灵”"></a>微信小程序:last-of-type 选择器“失灵”</h2><p>虽然在文档中未写明，不过小程序是支持 <code>:last-of-type</code> 选择器的。但是，如果是在自定义小程序组件的最外层使用该选择器，则可能失灵：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">"form-item"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">label</span> <span class="attr">class</span>=<span class="string">"form-item__label"</span>&gt;</span>&#123;&#123;label&#125;&#125;<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">"form-item__value"</span>&gt;</span>&#123;&#123;value&#125;&#125;<span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.form-item</span> &#123;</span><br><span class="line">  <span class="attribute">box-sizing</span>: border-box;</span><br><span class="line">  <span class="attribute">border-bottom</span>: <span class="number">1</span>rpx solid <span class="number">#f0f0f0</span>;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">26</span>rpx;</span><br><span class="line">  <span class="attribute">overflow</span>: hidden;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.form-item</span><span class="selector-pseudo">:last-of-type</span> &#123;</span><br><span class="line">  <span class="attribute">border-bottom</span>: <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.form-item__label</span> &#123;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">30</span>rpx;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#333333</span>;</span><br><span class="line">  <span class="attribute">float</span>: left;</span><br><span class="line">  <span class="attribute">min-width</span>: <span class="number">150</span>rpx;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.form-item__value</span> &#123;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">26</span>rpx;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#999999</span>;</span><br><span class="line">  <span class="attribute">text-align</span>: right;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>如上面的代码，在网页中的效果是为 <code>.form-item</code> 添加下划线，最后一个 <code>.form-item</code> 不加下划线。但在小程序中，自定义组件最外层会被包裹一个 <code>#shadow-root</code>，估计和 web 的 <a href="https://developer.mozilla.org/zh-CN/docs/Web/Web_Components/%E5%BD%B1%E5%AD%90_DOM" target="_blank" rel="noopener">shadow-dom</a> 差不多，导致每一个 <code>.form-item</code> 都符合 <code>:last-of-type</code>，所以该选择器失灵。换种方式来实现效果：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.form-item</span> &#123;</span><br><span class="line">  <span class="attribute">box-sizing</span>: border-box;</span><br><span class="line">  <span class="attribute">border-top</span>: <span class="number">1</span>rpx solid <span class="number">#f0f0f0</span>;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">26</span>rpx;</span><br><span class="line">  <span class="attribute">overflow</span>: hidden;</span><br><span class="line">  <span class="attribute">margin-top</span>: -<span class="number">1</span>rpx;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">"form-preview"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">form-item</span> <span class="attr">label</span>=<span class="string">"适用人群"</span> <span class="attr">value</span>=<span class="string">"全人类"</span>&gt;</span><span class="tag">&lt;/<span class="name">form-item</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">form-item</span> <span class="attr">label</span>=<span class="string">"保障区域"</span> <span class="attr">value</span>=<span class="string">"全宇宙"</span>&gt;</span><span class="tag">&lt;/<span class="name">form-item</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">form-item</span> <span class="attr">label</span>=<span class="string">"保障期间"</span> <span class="attr">value</span>=<span class="string">"10000年"</span>&gt;</span><span class="tag">&lt;/<span class="name">form-item</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>包裹 <code>.form-item</code> 的元素 <code>.form-preview</code> 设置为 <code>overflow:hidden</code> 即可。</p>
-<p>另外，在 web 开发中，我们经常引入 reset.css 来去除浏览器的固有样式，比如</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">html</span><span class="selector-class">.border-box</span> *,</span><br><span class="line"><span class="selector-tag">html</span><span class="selector-class">.border-box</span> *<span class="selector-pseudo">:before</span>,</span><br><span class="line"><span class="selector-tag">html</span><span class="selector-class">.border-box</span> *<span class="selector-pseudo">:after</span> &#123;</span><br><span class="line">  <span class="attribute">-moz-box-sizing</span>: border-box;</span><br><span class="line">  <span class="attribute">-webkit-box-sizing</span>: border-box;</span><br><span class="line">  <span class="attribute">box-sizing</span>: border-box;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>然而，小程序并不支持 通配符 <code>*</code>，也没有好的方式来对 wxss 进行转义。如果是使用 mpvue 进行开发，还可以引入插件来达成目标。如果老项目没法迁了，下面的代码也能解决部分问题：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.border-box</span> <span class="selector-tag">view</span><span class="comment">/* 以及其他需要 border-box的元素*/</span> &#123;</span><br><span class="line">  <span class="attribute">box-sizing</span>: border-box;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="vscode-提示-ts-应为“-”"><a href="#vscode-提示-ts-应为“-”" class="headerlink" title="vscode 提示 [ts] 应为“;”"></a>vscode 提示 <code>[ts] 应为“;”</code></h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">from</span> <span class="string">'./Foo'</span>;</span><br></pre></td></tr></table></figure>
-<p>上面这段 js 代码会在 vscode 报一个 <code>[ts] 应为“;”</code> 的错误。这段代码本身没错，报错只是因为 typescript 目前还不支持 <code>export default from</code> 语法 <a href="https://github.com/Microsoft/TypeScript/issues/4813#issuecomment-312045164" target="_blank" rel="noopener">参见</a>。如果你是用 babel 来编译代码，那这个错误可以无视。如果忍不了报错，可以用下面的写法代替：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Affix <span class="keyword">from</span> <span class="string">'./Foo'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> Foo;</span><br></pre></td></tr></table></figure>
-<p>啰嗦了一行代码，不过确实去掉了报错。</p>
-<h2 id="ios-返回页面，代码不执行"><a href="#ios-返回页面，代码不执行" class="headerlink" title="ios 返回页面，代码不执行"></a>ios 返回页面，代码不执行</h2><p>这是因为 ios 的缓存问题。如果用的是 jQuery，前端们最熟悉的应该是用<code>$(function(){})</code>监听 <code>DOMContentLoaded</code> 事件。为了让缓存页面执行 js，可以监听 <code>pageshow</code> 事件。如果需要返回刷新的功能：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">window</span>.onpageshow = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (e.persisted) &#123;</span><br><span class="line">    <span class="built_in">window</span>.location.reload(<span class="literal">true</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<h2 id="eslint-报错-‘React-is-defined-but-never-used-no-unused-vars’"><a href="#eslint-报错-‘React-is-defined-but-never-used-no-unused-vars’" class="headerlink" title="eslint 报错 ‘React is defined but never used no-unused-vars’"></a>eslint 报错 ‘React is defined but never used no-unused-vars’</h2><p>我承认这个报错是因为我自己傻，不过<a href="https://github.com/yannickcr/eslint-plugin-react/issues/1463" target="_blank" rel="noopener">有人和我一样傻</a>，哈哈哈~</p>
-<h2 id="nvm-安装新版本-node-后，yarn-命令失效"><a href="#nvm-安装新版本-node-后，yarn-命令失效" class="headerlink" title="nvm 安装新版本 node 后，yarn 命令失效"></a>nvm 安装新版本 node 后，yarn 命令失效</h2><p>这可能是因为 yarn 是通过 <code>npm install -g yarn</code> 命令来安装的。这种安装方式，yarn 是跟着 node 版本走的。每装一个新版本，都有去重复下载 yarn。使用 <code>brew install yarn --without-node</code> 来安装可解决这种问题。这种方式可以解决 yarn 的问题，不过，其他的全局包比如 hexo-cli，vue-cli 等，因为除了 npm 之外，没有其他的安装方式，所以，需要每次更新之后，都去重新安装一下全局包。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvm install 10.10.0 --reinstall-packages-from=10.5.0</span><br></pre></td></tr></table></figure>
-<p>上面的命令在安装 10.10 版本的 node 时，会自动安装在 10.5 版本时安装的全局包。如果还不能解决问题，请参考<a href="https://zhuanlan.zhihu.com/p/31927735" target="_blank" rel="noopener">这里</a>。不过，如果不是为了体验新特性，Node.js 一般不需要一直紧跟版本更新吧。</p>
-<h2 id="Provisional-headers-are-shown"><a href="#Provisional-headers-are-shown" class="headerlink" title="Provisional headers are shown"></a>Provisional headers are shown</h2><p>chrome://net-internals</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">前端 bug</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">yarn 失效</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/09/25/tricks-of-fe/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1070,7 +1044,7 @@
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
-		open_in_new: false,
+		open_in_new: true,
 		toc_hide_index: true,
 		root: "/",
 		innerArchive: true,
@@ -1128,15 +1102,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">macOS APP</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">vue-cli-3</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">新世界</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1145,6 +1115,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">对象复制</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1160,15 +1134,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">node_modules</a>
+                <a href="javascript:void(0)" class="js-tag color2">前端 bug</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">babel</a>
+                <a href="javascript:void(0)" class="js-tag color3">yarn 失效</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">macOS APP</a>
+                <a href="javascript:void(0)" class="js-tag color1">typescript</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1180,11 +1154,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">前端 bug</a>
+                <a href="javascript:void(0)" class="js-tag color3">node_modules</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">yarn 失效</a>
+                <a href="javascript:void(0)" class="js-tag color1">babel</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1197,6 +1171,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">prefer-default-export</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">新世界</a>
               </li>
             
             <div class="clearfix"></div>
