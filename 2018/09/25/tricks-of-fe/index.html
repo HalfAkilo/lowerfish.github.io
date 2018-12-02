@@ -23,7 +23,7 @@
 <meta property="og:site_name" content="Yepbug&#39;s Blog | 萤火之未">
 <meta property="og:description" content="git 对文件名大小写不敏感如果是个人的项目，可以直接修改默认的配置，git config core.ignorecase false。但是这种方式非常不推荐，因为不同的系统，对于文件名大小的敏感程度不一样（macOS 下，默认不支持，而在 Linux 系统中，默认支持）。 如果是团队的项目，为了避免影响其他人，最好不要去修改配置。如果想把 ‘foo’ 文件重命名为 Foo，需要运行 git mv">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-11-17T08:11:21.000Z">
+<meta property="og:updated_time" content="2018-12-02T04:48:21.617Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="前端 “bug” 和小技巧">
 <meta name="twitter:description" content="git 对文件名大小写不敏感如果是个人的项目，可以直接修改默认的配置，git config core.ignorecase false。但是这种方式非常不推荐，因为不同的系统，对于文件名大小的敏感程度不一样（macOS 下，默认不支持，而在 Linux 系统中，默认支持）。 如果是团队的项目，为了避免影响其他人，最好不要去修改配置。如果想把 ‘foo’ 文件重命名为 Foo，需要运行 git mv">
@@ -184,7 +184,13 @@
 <h2 id="nvm-安装新版本-node-后，yarn-命令失效"><a href="#nvm-安装新版本-node-后，yarn-命令失效" class="headerlink" title="nvm 安装新版本 node 后，yarn 命令失效"></a>nvm 安装新版本 node 后，yarn 命令失效</h2><p>这可能是因为 yarn 是通过 <code>npm install -g yarn</code> 命令来安装的。这种安装方式，yarn 是跟着 node 版本走的。每装一个新版本，都有去重复下载 yarn。使用 <code>brew install yarn --without-node</code> 来安装可解决这种问题。这种方式可以解决 yarn 的问题，不过，其他的全局包比如 hexo-cli，vue-cli 等，因为除了 npm 之外，没有其他的安装方式，所以，需要每次更新之后，都去重新安装一下全局包。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvm install 10.10.0 --reinstall-packages-from=10.5.0</span><br></pre></td></tr></table></figure>
 <p>上面的命令在安装 10.10 版本的 node 时，会自动安装在 10.5 版本时安装的全局包。如果还不能解决问题，请参考<a href="https://zhuanlan.zhihu.com/p/31927735" target="_blank" rel="noopener">这里</a>。不过，如果不是为了体验新特性，Node.js 一般不需要一直紧跟版本更新吧。</p>
-<h2 id="Provisional-headers-are-shown"><a href="#Provisional-headers-are-shown" class="headerlink" title="Provisional headers are shown"></a>Provisional headers are shown</h2><p>chrome://net-internals</p>
+<h2 id="Object-和-Map-的区别"><a href="#Object-和-Map-的区别" class="headerlink" title="Object 和 Map 的区别"></a>Object 和 Map 的区别</h2><ul>
+<li>对象的键值只能是字符串或者是 Symbol，Map 的键值可以是任意值；</li>
+<li>Map 的键值有序，遍历时按照插入的顺序返回值；</li>
+<li>Map 的长度直接通过 <code>size</code> 获得，对象需要<code>Object.keys</code> 求长度；</li>
+<li>Map 可以直接迭代遍历，而对象需要先通过 <code>Object.keys</code> 获得键数组；</li>
+<li>Map 在频繁增删键值对时，性能有优势；</li>
+</ul>
 
       
 
