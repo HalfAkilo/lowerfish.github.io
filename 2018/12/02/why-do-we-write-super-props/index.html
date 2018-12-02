@@ -10,23 +10,23 @@
   <link rel="dns-prefetch" href="https://yepbug.com">
   <title>
     
-    我们为什么需要写 super(props) |
+    讲道理，React中，我们为什么需要写 super(props)？ |
     
     Yepbug&#39;s Blog | 萤火之未
   </title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="这篇文章源自 Dan 的博客。 现在的热点是 hooks，所以我决定写一篇关于 class 组件的文章 😂。 文章中描述的问题，应该不会影响你写代码；不过如果你想深入研究 React 是怎么工作的，这篇文章可能会对你有帮助。 第一个问题：  我自己都不知道我写了多少遍 super(props)： 1234567class Checkbox extends React.Component &amp;#12">
-<meta name="keywords" content="react">
+  <meta name="description" content="这篇文章源自 Dan 的博客。 现在的热点是 hooks，所以 Dan 决定写一篇关于 class 组件的文章 😂。 文章中描述的问题，大概率不会影响你写代码；不过如果你想深入研究 React 是怎么工作的，这篇文章可能会对你有帮助。 第一个问题：  我自己都不知道我写了多少遍 super(props)： 1234567class Checkbox extends React.Component">
+<meta name="keywords" content="React.js">
 <meta property="og:type" content="article">
-<meta property="og:title" content="我们为什么需要写 super(props)">
+<meta property="og:title" content="讲道理，React中，我们为什么需要写 super(props)？">
 <meta property="og:url" content="https://yepbug.com/2018/12/02/why-do-we-write-super-props/index.html">
 <meta property="og:site_name" content="Yepbug&#39;s Blog | 萤火之未">
-<meta property="og:description" content="这篇文章源自 Dan 的博客。 现在的热点是 hooks，所以我决定写一篇关于 class 组件的文章 😂。 文章中描述的问题，应该不会影响你写代码；不过如果你想深入研究 React 是怎么工作的，这篇文章可能会对你有帮助。 第一个问题：  我自己都不知道我写了多少遍 super(props)： 1234567class Checkbox extends React.Component &amp;#12">
+<meta property="og:description" content="这篇文章源自 Dan 的博客。 现在的热点是 hooks，所以 Dan 决定写一篇关于 class 组件的文章 😂。 文章中描述的问题，大概率不会影响你写代码；不过如果你想深入研究 React 是怎么工作的，这篇文章可能会对你有帮助。 第一个问题：  我自己都不知道我写了多少遍 super(props)： 1234567class Checkbox extends React.Component">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-12-02T03:10:29.166Z">
+<meta property="og:updated_time" content="2018-12-02T03:21:13.037Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="我们为什么需要写 super(props)">
-<meta name="twitter:description" content="这篇文章源自 Dan 的博客。 现在的热点是 hooks，所以我决定写一篇关于 class 组件的文章 😂。 文章中描述的问题，应该不会影响你写代码；不过如果你想深入研究 React 是怎么工作的，这篇文章可能会对你有帮助。 第一个问题：  我自己都不知道我写了多少遍 super(props)： 1234567class Checkbox extends React.Component &amp;#12">
+<meta name="twitter:title" content="讲道理，React中，我们为什么需要写 super(props)？">
+<meta name="twitter:description" content="这篇文章源自 Dan 的博客。 现在的热点是 hooks，所以 Dan 决定写一篇关于 class 组件的文章 😂。 文章中描述的问题，大概率不会影响你写代码；不过如果你想深入研究 React 是怎么工作的，这篇文章可能会对你有帮助。 第一个问题：  我自己都不知道我写了多少遍 super(props)： 1234567class Checkbox extends React.Component">
   
   <link rel="alternative" href="/atom.xml" title="Yepbug&#39;s Blog | 萤火之未" type="application/atom+xml">
   
@@ -148,7 +148,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      我们为什么需要写 super(props)
+      讲道理，React中，我们为什么需要写 super(props)？
     </h1>
   
 
@@ -162,8 +162,8 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>这篇文章源自 <a href="https://overreacted.io/why-do-we-write-super-props/" target="_blank" rel="noopener">Dan 的博客</a>。</p>
-<p>现在的热点是 <a href="https://reactjs.org/docs/hooks-intro.html" target="_blank" rel="noopener">hooks</a>，所以我决定写一篇关于 <code>class</code> 组件的文章 😂。</p>
-<p>文章中描述的问题，应该不会影响你写代码；不过如果你想深入研究 React 是怎么工作的，这篇文章可能会对你有帮助。</p>
+<p>现在的热点是 <a href="https://reactjs.org/docs/hooks-intro.html" target="_blank" rel="noopener">hooks</a>，所以 Dan 决定写一篇关于 <code>class</code> 组件的文章 😂。</p>
+<p>文章中描述的问题，大概率不会影响你写代码；不过如果你想深入研究 React 是怎么工作的，这篇文章可能会对你有帮助。</p>
 <p>第一个问题：</p>
 <hr>
 <p>我自己都不知道我写了多少遍 <code>super(props)</code>：</p>
@@ -218,7 +218,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">react</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">React.js</a>
         		</li>
       		
 		</ul>
@@ -444,10 +444,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">TypeScript</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">macOS APP</a>
               </li>
              
@@ -472,6 +468,18 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">TypeScript</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">react.js</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">react.js hooks</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">airbnb</a>
               </li>
              
@@ -484,19 +492,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">react.js</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">react.js hooks</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">node_modules</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">babel</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">React.js</a>
               </li>
             
             <div class="clearfix"></div>
