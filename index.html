@@ -136,6 +136,123 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-why-do-we-write-super-props" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/12/02/why-do-we-write-super-props/">我们为什么需要写 super(props)</a>
+    </h1>
+  
+
+        
+        <a href="/2018/12/02/why-do-we-write-super-props/" class="archive-article-date">
+  	<time datetime="2018-12-02T01:29:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-12-02</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>这篇文章源自 <a href="https://overreacted.io/why-do-we-write-super-props/" target="_blank" rel="noopener">Dan 的博客</a>。</p>
+<p>现在的热点是 <a href="https://reactjs.org/docs/hooks-intro.html" target="_blank" rel="noopener">hooks</a>，所以我决定写一篇关于 <code>class</code> 组件的文章 😂。</p>
+<p>文章中描述的问题，应该不会影响你写代码；不过如果你想深入研究 React 是怎么工作的，这篇文章可能会对你有帮助。</p>
+<p>第一个问题：</p>
+<hr>
+<p>我自己都不知道我写了多少遍 <code>super(props)</code>：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Checkbox</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">    <span class="keyword">super</span>(props);</span><br><span class="line">    <span class="keyword">this</span>.state = &#123; <span class="attr">isOn</span>: <span class="literal">true</span> &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当然，<a href="https://github.com/tc39/proposal-class-fields" target="_blank" rel="noopener">class 属性提案</a> 可以简化代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Checkbox</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  state = &#123; <span class="attr">isOn</span>: <span class="literal">true</span> &#125;;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>2015 年初的时候，React 0.13 版本就已经<a href="https://reactjs.org/blog/2015/01/27/react-v0.13.0-beta-1.html#es7-property-initializers" target="_blank" rel="noopener">计划</a>支持该语法。在此之前，我们需要不断地写 <code>constructor</code>，然后再调用 <code>super(props)</code>。</p>
+<p>现在我们先回顾一下之前的写法：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Checkbox</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">    <span class="keyword">super</span>(props);</span><br><span class="line">    <span class="keyword">this</span>.state = &#123; <span class="attr">isOn</span>: <span class="literal">true</span> &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>我们为什么要调用 <code>super</code>？能不能不调用？如果调用的时候不传入<code>props</code>呢？还可以传入其他参数么？</strong>带着这些问题往下看。</p>
+<hr>
+<p>在 JavaScript 中，<code>super</code> 引用的是父类构造函数。（在 React 中，引用的自然就是 <code>React.Component</code>）</p>
+<p>需要注意的是，在调用父类构造函数之前，无法用 <code>this</code>。其实这不是 React 的限制，而是 JavaScript 的限制：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Checkbox</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">    <span class="comment">// 🔴 还不能用 `this`</span></span><br><span class="line">    <span class="keyword">super</span>(props);</span><br><span class="line">    <span class="comment">// ✅ 现在就能用啦</span></span><br><span class="line">    <span class="keyword">this</span>.state = &#123; <span class="attr">isOn</span>: <span class="literal">true</span> &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>JavaScript 对 <code>this</code> 使用的限制，是有原因的。假设有如下的继承：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(name) &#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PolitePerson</span> <span class="keyword">extends</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(name) &#123;</span><br><span class="line">    <span class="keyword">this</span>.greetColleagues(); <span class="comment">// 🔴 不能这么干，下面会讲原因</span></span><br><span class="line">    <span class="keyword">super</span>(name);</span><br><span class="line">  &#125;</span><br><span class="line">  greetColleagues() &#123;</span><br><span class="line">    alert(<span class="string">'Good morning folks!'</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果 JavaScript 允许在调用 <code>super</code> 之前使用 <code>this</code>，一个月之后，我们需要修改 <code>greetColleagues</code> 方法，方法中使用了 name 属性：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">greetColleagues() &#123;</span><br><span class="line">  alert(<span class="string">'Good morning folks!'</span>);</span><br><span class="line">  alert(<span class="string">'My name is '</span> + <span class="keyword">this</span>.name + <span class="string">', nice to meet you!'</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>不过我们可能已经忘了 <code>this.greetColleagues();</code> 是在调用 <code>super</code> 之前调用的；因此，<code>this.name</code> 还没有赋值。这样的代码，很难定位 bug。</p>
+<p>为了避免这样的错误，<strong>JavaScript 强制开发者在构造函数中先调用 <code>super</code>，才能使用<code>this</code>。</strong>这一限制，也被应用到了 React 组件：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">  <span class="keyword">super</span>(props);</span><br><span class="line">  <span class="comment">// ✅ 现在可以用 `this` 啦</span></span><br><span class="line">  <span class="keyword">this</span>.state = &#123; <span class="attr">isOn</span>: <span class="literal">true</span> &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>问题又来了：为什么要传入 <code>props</code> 呢？</p>
+<hr>
+<p>你可能以为必须给 <code>super</code> 传入 <code>props</code>，否则 <code>React.Component</code> 就没法初始化 <code>this.props</code>：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Inside React</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">    <span class="keyword">this</span>.props = props;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>en…离真相不远 —— 事实上，React 也的确<a href="https://github.com/facebook/react/blob/1d25aa5787d4e19704c049c3cfa985d3b5190e0d/packages/react/src/ReactBaseClasses.js#L22" target="_blank" rel="noopener">这么干了</a>。</p>
+<p>不过，如果你不小心漏传了 <code>props</code>，直接调用了 <code>super()</code>，你仍然可以在 <code>render</code> 和其他方法中访问 <code>this.props</code>（不信的话可以试试嘛）。</p>
+<p>为啥这样也行？因为<strong>React 会在构造函数被调用之后，会把 <code>props</code> 赋值给刚刚创建的实例对象：</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Inside React</span></span><br><span class="line"><span class="keyword">const</span> instance = <span class="keyword">new</span> YourComponent(props);</span><br><span class="line">instance.props = props;</span><br></pre></td></tr></table></figure>
+<p><code>props</code> 不传也能用，是有原因的。</p>
+<p>React 添加对 class 支持的时候，不仅仅要支持 ES6 的 class，还需要考虑其他的 class 实现, CoffeeScript, ES6, Fable, Scala.js, TypeScript 中 class 的使用方式并<a href="https://reactjs.org/blog/2015/01/27/react-v0.13.0-beta-1.html#other-languages" target="_blank" rel="noopener">不一致</a>。所以，即使有了 ES6 class，在调用 <code>super()</code>这个问题上，React 没做太多限制。</p>
+<p>但这意味着你在使用 React 时，可以用 <code>super()</code> 代替 <code>super(props)</code> 了么？</p>
+<p><strong>别这么干，因为会带来其他问题。</strong> 虽然 React 会在构造函数运行之后，为 <code>this.props</code> 赋值，但在 <code>super()</code> 调用之后与构造函数结束之前， <code>this.props</code> 仍然是没法用的。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Inside React</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">    <span class="keyword">this</span>.props = props;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Inside your code</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Button</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">    <span class="keyword">super</span>(); <span class="comment">// 😬 忘了传入 props</span></span><br><span class="line">    <span class="built_in">console</span>.log(props); <span class="comment">// ✅ &#123;&#125;</span></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.props); <span class="comment">// 😬 undefined</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>要是构造函数中调用了某个访问 <code>props</code> 的方法，那这个 bug 就更难定位了。<strong>因此我强烈建议始终使用<code>super(props)</code>，即使这不是必须的：</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Button</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">    <span class="keyword">super</span>(props); <span class="comment">// ✅ We passed props</span></span><br><span class="line">    <span class="built_in">console</span>.log(props); <span class="comment">// ✅ &#123;&#125;</span></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.props); <span class="comment">// ✅ &#123;&#125;</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的代码确保 <code>this.props</code> 始终是有值的。</p>
+<hr>
+<p>还有一个问题可能困扰 React 开发者很久了。你应该已经注意到，当你在 class 中使用 Context API 时（无论是之前的 <code>contextTypes</code> 还是现在的 <code>contextType</code> API），<code>context</code> 都是作为构造函数的第二个参数。</p>
+<p>我们为什么不用写 <code>super(props, context)</code>？我们当然可以这么写，不过 context API 用的相对较少，所以引发的 bug 也比较少。</p>
+<p><strong>感谢<a href="https://github.com/tc39/proposal-class-fields" target="_blank" rel="noopener">class 属性提案</a> ，这样的 bug 几近绝迹。</strong>只要没有显式声明构造函数，所有参数都会被自动传递。所以，在<code>state = {}</code> 表达式中，你可以访问<code>this.props</code> 以及 <code>this.context</code>。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">react</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/12/02/why-do-we-write-super-props/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-typescript使用小tip" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
@@ -933,104 +1050,6 @@
 
 
   
-    <article id="post-how-to-clone-object" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/16/how-to-clone-object/">JS 到底该怎么复制对象啊</a>
-    </h1>
-  
-
-        
-        <a href="/2018/10/16/how-to-clone-object/" class="archive-article-date">
-  	<time datetime="2018-10-16T11:10:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-10-16</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>8102 年了，我们该怎么去复制一个对象？答案：看需求说话。如果你是准备去维护一个类似 lodash 或者是 underscore 这样的工具库，那肯定是要考虑到方方面；不过，要是你明确知道自己要干啥，那有很多简单的方式来实现复制:）</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">clone</span>(<span class="params">source</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> &#123; ...source &#125;;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> a = &#123; <span class="attr">name</span>: <span class="string">'a'</span> &#125;;</span><br><span class="line"><span class="keyword">let</span> b = clone(a);</span><br><span class="line">b.name = <span class="string">'b'</span>;</span><br><span class="line"><span class="built_in">console</span>.log(a.name, b.name); <span class="comment">// a b</span></span><br></pre></td></tr></table></figure>
-<p>完美！？<br>就算不考虑兼容性，这段代码实现的也仅仅是 shallowCopy 功能，很多情况下可能不适用：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">clone</span>(<span class="params">source</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> &#123; ...source &#125;;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> a = &#123; <span class="attr">name</span>: <span class="string">'a'</span>, <span class="attr">familyMember</span>: [<span class="string">'lucy'</span>, <span class="string">'lily'</span>] &#125;;</span><br><span class="line"><span class="keyword">let</span> b = clone(a);</span><br><span class="line">b.familyMember[<span class="number">0</span>] = <span class="string">'jack'</span>;</span><br><span class="line"><span class="built_in">console</span>.log(a.familyMember[<span class="number">0</span>], b.familyMember[<span class="number">0</span>]); <span class="comment">// jack jack</span></span><br></pre></td></tr></table></figure>
-<p>像上面这样，如果对象的属性不是原始值，就无法正确复制。</p>
-<p>实现深拷贝，最容易想到的是递归。只要判断对象属性是不是原始值，是的话，直接复制；否则，递归。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">clone</span>(<span class="params">source</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> target = &#123;&#125;;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i <span class="keyword">in</span> source) &#123;</span><br><span class="line">    <span class="keyword">if</span> (source.hasOwnProperty(i)) &#123;</span><br><span class="line">      <span class="keyword">if</span> (<span class="keyword">typeof</span> source[i] === <span class="string">'object'</span>) &#123;</span><br><span class="line">        target[i] = clone(source[i]);</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        target[i] = source[i];</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> target;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> a = &#123; <span class="attr">name</span>: <span class="string">'a'</span>, <span class="attr">familyMember</span>: [<span class="string">'lucy'</span>, <span class="string">'lily'</span>] &#125;;</span><br><span class="line"><span class="keyword">let</span> b = clone(a);</span><br><span class="line">b.familyMember[<span class="number">0</span>] = <span class="string">'jack'</span>;</span><br><span class="line"><span class="built_in">console</span>.log(a.familyMember[<span class="number">0</span>], b.familyMember[<span class="number">0</span>]); <span class="comment">// lucy, jack</span></span><br></pre></td></tr></table></figure>
-<p>又一个完美的方法！？虽然看着像那么一回事，不过用递归就得考虑一下爆栈的问题。上面的方法中，有一层属性，就要在栈里压一层 clone 方法。写个方法，测试一下几层会爆：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createDeepObject</span>(<span class="params">depth</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> res = &#123;&#125;;</span><br><span class="line">  <span class="keyword">let</span> tmp = res;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; depth; i++) &#123;</span><br><span class="line">    tmp[<span class="string">'data'</span>] = &#123;&#125;;</span><br><span class="line">    tmp = tmp[<span class="string">'data'</span>];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> a = clone(createDeepObject(<span class="number">999</span>)); <span class="comment">// 🐂🍺，没爆</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">* 我的配置</span></span><br><span class="line"><span class="comment">* 型号名称： iMac</span></span><br><span class="line"><span class="comment">* 型号标识符： iMac18,3</span></span><br><span class="line"><span class="comment">* 处理器名称： Intel Core i7</span></span><br><span class="line"><span class="comment">* 处理器速度： 4.2 GHz</span></span><br><span class="line"><span class="comment">* 处理器数目： 1</span></span><br><span class="line"><span class="comment">* 核总数： 4</span></span><br><span class="line"><span class="comment">* L2 缓存（每个核）： 256 KB</span></span><br><span class="line"><span class="comment">* L3 缓存： 8 MB</span></span><br><span class="line"><span class="comment">* 内存： 16 GB</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">let</span> b = clone(createDeepObject(<span class="number">9999</span>)); <span class="comment">// 不是不爆，时候未到</span></span><br><span class="line"><span class="comment">//  VM2526:1 Uncaught RangeError: Maximum call stack size exceeded</span></span><br></pre></td></tr></table></figure>
-<p>到 999 层没爆，实际上已经足够满足我们的需求了（这应该与硬件配置以及浏览器具体实现有关）。如果实际业务场景中，真的有一个一千多层深度的对象，那需要优化的一般不是你的 clone 方法，而是整个技术团队 —— 赶紧离职。</p>
-<p><img src="/assets/img/meme-duck.jpg" alt="damn you pm"></p>
-<p>不过，想让我们的代码爆掉，并不需要一个一千多层的对象，循环引用就够了。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = &#123;&#125;;</span><br><span class="line">a.a = a;</span><br><span class="line">clone(a);</span><br></pre></td></tr></table></figure>
-<p>看来我的代码确实是不严谨啊。算了，为了钱，滚回来继续上班。</p>
-<p><img src="/assets/img/i-am-back.jpg" alt="i am back but still damn you pm"></p>
-<p>一个严谨的、得到广泛认可的 clone 方法，到底是如何实现的呢？跟 <a href="https://github.com/lodash/lodash/blob/4.17.5/lodash.js#L11078" target="_blank" rel="noopener">lodash</a> 学习一下吧！</p>
-<p>首先试一下 lodash 能否克隆一个很深很深的对象：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> _ = <span class="built_in">require</span>(<span class="string">'lodash'</span>);</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createDeepObject</span>(<span class="params">depth</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> res = &#123;&#125;;</span><br><span class="line">  <span class="keyword">let</span> tmp = res;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; depth; i++) &#123;</span><br><span class="line">    tmp[<span class="string">'data'</span>] = &#123;&#125;;</span><br><span class="line">    tmp = tmp[<span class="string">'data'</span>];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(_.cloneDeep(createDeepObject(<span class="number">9999</span>)));</span><br><span class="line"><span class="comment">// RangeError: Maximum call stack size exceeded</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = &#123;&#125;;</span><br><span class="line">a.a = a;</span><br><span class="line"><span class="built_in">console</span>.log(_.cloneDeep(a)); <span class="comment">// &#123; a: [Circular] &#125;</span></span><br></pre></td></tr></table></figure>
-<p>👀 复制一个这么深的对象，果然是个伪需求；<br>👀 lodash 也应该是用了递归的方法；<br>👀 lodash 果然比我自己写的方法好多了，至少处理了循环引用的问题</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// lodash clone 核心代码</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">baseClone</span>(<span class="params">value, bitmask, customizer, key, object, stack</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> result,</span><br><span class="line">    isDeep = bitmask &amp; CLONE_DEEP_FLAG,</span><br><span class="line">    isFlat = bitmask &amp; CLONE_FLAT_FLAG,</span><br><span class="line">    isFull = bitmask &amp; CLONE_SYMBOLS_FLAG;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (customizer) &#123;</span><br><span class="line">    result = object ? customizer(value, key, object, stack) : customizer(value);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (result !== <span class="literal">undefined</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// value 不为 null 并且 type 为 object 或者 function</span></span><br><span class="line">  <span class="keyword">if</span> (!isObject(value)) &#123;</span><br><span class="line">    <span class="keyword">return</span> value;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// isArray 即为 Array.isArray</span></span><br><span class="line">  <span class="keyword">var</span> isArr = isArray(value);</span><br><span class="line">  <span class="keyword">if</span> (isArr) &#123;</span><br><span class="line">    <span class="comment">// 初始化一个数组</span></span><br><span class="line">    <span class="comment">// 普通数组只是去创建一个 length 相同的空数组</span></span><br><span class="line">    <span class="comment">//  对 RegExp#exec 方法返回的数组，添加了相同的 input 和 index 属性</span></span><br><span class="line">    result = initCloneArray(value);</span><br><span class="line">    <span class="keyword">if</span> (!isDeep) &#123;</span><br><span class="line">      <span class="comment">// 如果无需深拷贝，直接就是挨个复制</span></span><br><span class="line">      <span class="keyword">return</span> copyArray(value, result);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// Object.prototype.toString.call 来获取真实 type</span></span><br><span class="line">    <span class="keyword">var</span> tag = getTag(value),</span><br><span class="line">      isFunc = tag == funcTag || tag == genTag;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 判断是否是 Buffer =》 node.js 中需要，浏览器端暂时没有实现</span></span><br><span class="line">    <span class="keyword">if</span> (isBuffer(value)) &#123;</span><br><span class="line">      <span class="keyword">return</span> cloneBuffer(value, isDeep);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (tag == objectTag || tag == argsTag || (isFunc &amp;&amp; !object)) &#123;</span><br><span class="line">      result = isFlat || isFunc ? &#123;&#125; : initCloneObject(value);</span><br><span class="line">      <span class="keyword">if</span> (!isDeep) &#123;</span><br><span class="line">        <span class="comment">// shallowCopy</span></span><br><span class="line">        <span class="keyword">return</span> isFlat</span><br><span class="line">          ? copySymbolsIn(value, baseAssignIn(result, value))</span><br><span class="line">          : copySymbols(value, baseAssign(result, value));</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (!cloneableTags[tag]) &#123;</span><br><span class="line">        <span class="keyword">return</span> object ? value : &#123;&#125;;</span><br><span class="line">      &#125;</span><br><span class="line">      result = initCloneByTag(value, tag, isDeep);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 检测是否循环引用</span></span><br><span class="line">  stack || (stack = <span class="keyword">new</span> Stack());</span><br><span class="line">  <span class="keyword">var</span> stacked = stack.get(value);</span><br><span class="line">  <span class="keyword">if</span> (stacked) &#123;</span><br><span class="line">    <span class="keyword">return</span> stacked;</span><br><span class="line">  &#125;</span><br><span class="line">  stack.set(value, result);</span><br><span class="line">  <span class="comment">// 对 map set 类型的数据进行复制</span></span><br><span class="line">  <span class="keyword">if</span> (isSet(value)) &#123;</span><br><span class="line">    value.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">subValue</span>) </span>&#123;</span><br><span class="line">      result.add(</span><br><span class="line">        baseClone(subValue, bitmask, customizer, subValue, value, stack),</span><br><span class="line">      );</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (isMap(value)) &#123;</span><br><span class="line">    value.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">subValue, key</span>) </span>&#123;</span><br><span class="line">      result.set(</span><br><span class="line">        key,</span><br><span class="line">        baseClone(subValue, bitmask, customizer, key, value, stack),</span><br><span class="line">      );</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> keysFunc = isFull</span><br><span class="line">    ? isFlat</span><br><span class="line">      ? getAllKeysIn</span><br><span class="line">      : getAllKeys</span><br><span class="line">    : isFlat</span><br><span class="line">      ? keysIn</span><br><span class="line">      : keys;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> props = isArr ? <span class="literal">undefined</span> : keysFunc(value);</span><br><span class="line">  arrayEach(props || value, <span class="function"><span class="keyword">function</span>(<span class="params">subValue, key</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (props) &#123;</span><br><span class="line">      key = subValue;</span><br><span class="line">      subValue = value[key];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// Recursively populate clone (susceptible to call stack limits).</span></span><br><span class="line">    assignValue(</span><br><span class="line">      result,</span><br><span class="line">      key,</span><br><span class="line">      baseClone(subValue, bitmask, customizer, key, value, stack),</span><br><span class="line">    );</span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">js</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">对象复制</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/10/16/how-to-clone-object/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1128,11 +1147,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">新世界</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">js</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">对象复制</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">TypeScript</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1160,18 +1187,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">TypeScript</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">react.js</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">react.js hooks</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">airbnb</a>
               </li>
              
@@ -1184,15 +1199,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">react.js</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">react.js hooks</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">node_modules</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">babel</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">新世界</a>
               </li>
             
             <div class="clearfix"></div>
