@@ -10,18 +10,25 @@
   <link rel="dns-prefetch" href="https://yepbug.com">
   <title>
     
-    Tag: yarn 失效 |
+    为什么不用 fetch ？ |
     
     Yepbug&#39;s Blog | 萤火之未
   </title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Yepbug&#39;s Blog | 萤火之未">
-<meta property="og:url" content="https://yepbug.com/tags/yarn-失效/index.html">
+  <meta name="description" content="fetch 本来是用了代替 XMLHttpRequest 的，然而发展到现在，似乎还是 axios 比较流行。看一下支持度，不考虑 IE 的话，几乎没有什么兼容性问题。 与 axios 对比Promise 式调用fetch 与 axios 的调用方式相差无几。以下是调用 Github API 的一段代码： 12345678910111213141516171819fetch(&apos;https://ap">
+<meta name="keywords" content="fetch,axios">
+<meta property="og:type" content="article">
+<meta property="og:title" content="为什么不用 fetch ？">
+<meta property="og:url" content="https://yepbug.com/2019/01/13/why-not-use-fetch/index.html">
 <meta property="og:site_name" content="Yepbug&#39;s Blog | 萤火之未">
+<meta property="og:description" content="fetch 本来是用了代替 XMLHttpRequest 的，然而发展到现在，似乎还是 axios 比较流行。看一下支持度，不考虑 IE 的话，几乎没有什么兼容性问题。 与 axios 对比Promise 式调用fetch 与 axios 的调用方式相差无几。以下是调用 Github API 的一段代码： 12345678910111213141516171819fetch(&apos;https://ap">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="https://yepbug.com/assets/img/fetch-api.png">
+<meta property="og:updated_time" content="2019-01-13T13:50:02.803Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Yepbug&#39;s Blog | 萤火之未">
+<meta name="twitter:title" content="为什么不用 fetch ？">
+<meta name="twitter:description" content="fetch 本来是用了代替 XMLHttpRequest 的，然而发展到现在，似乎还是 axios 比较流行。看一下支持度，不考虑 IE 的话，几乎没有什么兼容性问题。 与 axios 对比Promise 式调用fetch 与 axios 的调用方式相差无几。以下是调用 Github API 的一段代码： 12345678910111213141516171819fetch(&apos;https://ap">
+<meta name="twitter:image" content="https://yepbug.com/assets/img/fetch-api.png">
   
   <link rel="alternative" href="/atom.xml" title="Yepbug&#39;s Blog | 萤火之未" type="application/atom+xml">
   
@@ -136,64 +143,180 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-why-not-use-fetch" class="article article-type-post " itemscope="" itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/09/25/tricks-of-fe/" class="archive-article-date">
-  	<time datetime="2018-09-25T05:08:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-25</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/09/25/tricks-of-fe/">前端 “bug” 和小技巧</a>
+    <h1 class="article-title" itemprop="name">
+      为什么不用 fetch ？
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2019/01/13/why-not-use-fetch/" class="archive-article-date">
+  	<time datetime="2019-01-13T08:49:56.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-13</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><code>fetch</code> 本来是用了代替 <code>XMLHttpRequest</code> 的，然而发展到现在，似乎还是 <code>axios</code> 比较流行。看一下<a href="https://caniuse.com/#search=fetch" target="_blank" rel="noopener">支持度</a>，不考虑 IE 的话，几乎没有什么兼容性问题。</p>
+<h2 id="与-axios-对比"><a href="#与-axios-对比" class="headerlink" title="与 axios 对比"></a>与 axios 对比</h2><h3 id="Promise-式调用"><a href="#Promise-式调用" class="headerlink" title="Promise 式调用"></a>Promise 式调用</h3><p><code>fetch</code> 与 <code>axios</code> 的调用方式相差无几。以下是调用 Github API 的一段代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">fetch(<span class="string">'https://api.github.com/users/octocat/orgs'</span>)</span><br><span class="line">  .then(<span class="function"><span class="params">response</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (response.status &gt;= <span class="number">200</span> &amp;&amp; response.status &lt; <span class="number">300</span>) &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">'Content-Type: '</span> + response.headers.get(<span class="string">'Content-Type'</span>));</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">'status: '</span> + response.status);</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">'statusText: '</span> + response.statusText);</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">'type: '</span> + response.type);</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">'url: '</span> + response.url);</span><br><span class="line">      <span class="keyword">return</span> <span class="built_in">Promise</span>.resolve(response);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="built_in">Promise</span>.reject(<span class="keyword">new</span> <span class="built_in">Error</span>(response.statusText));</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">  .then(<span class="function"><span class="params">data</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(data);</span><br><span class="line">  &#125;)</span><br><span class="line">  .catch(<span class="function"><span class="params">e</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(e);</span><br><span class="line">  &#125;);</span><br></pre></td></tr></table></figure>
+<p>运行结果如图：</p>
+<p><img src="/assets/img/fetch-api.png" alt="vscode"></p>
+<p>与 <code>axios</code> 相比，返回结果略有不同，对错误的默认处理方式也不太一样。</p>
+<h3 id="跨域"><a href="#跨域" class="headerlink" title="跨域"></a>跨域</h3><p><code>fetch</code> 的第二个参数可以传递一些配置参数，如果需要跨域的话，只需要设置参数为：<code>{mode: &quot;cors&quot;}</code>，相对地，后台也需要对 <code>Access-Control-Allow-Origin</code> 进行设置。如果是以 <code>jsonp</code> 的方式进行跨域的话，则需要使用社区提供的一些库，比如 <code>[fetch-jsonp](https://github.com/camsong/fetch-jsonp)</code>。</p>
+<p><code>fetch</code> <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Fetch_API/Using_Fetch#%E6%94%AF%E6%8C%81%E7%9A%84%E8%AF%B7%E6%B1%82%E5%8F%82%E6%95%B0" target="_blank" rel="noopener">支持的请求参数</a>：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Example POST method implementation:</span></span><br><span class="line"></span><br><span class="line">postData(<span class="string">'http://example.com/answer'</span>, &#123; <span class="attr">answer</span>: <span class="number">42</span> &#125;)</span><br><span class="line">  .then(<span class="function"><span class="params">data</span> =&gt;</span> <span class="built_in">console</span>.log(data)) <span class="comment">// JSON from `response.json()` call</span></span><br><span class="line">  .catch(<span class="function"><span class="params">error</span> =&gt;</span> <span class="built_in">console</span>.error(error));</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">postData</span>(<span class="params">url, data</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// Default options are marked with *</span></span><br><span class="line">  <span class="keyword">return</span> fetch(url, &#123;</span><br><span class="line">    body: <span class="built_in">JSON</span>.stringify(data), <span class="comment">// must match 'Content-Type' header</span></span><br><span class="line">    cache: <span class="string">'no-cache'</span>, <span class="comment">// *default, no-cache, reload, force-cache, only-if-cached</span></span><br><span class="line">    credentials: <span class="string">'same-origin'</span>, <span class="comment">// include, same-origin, *omit</span></span><br><span class="line">    headers: &#123;</span><br><span class="line">      <span class="string">'user-agent'</span>: <span class="string">'Mozilla/4.0 MDN Example'</span>,</span><br><span class="line">      <span class="string">'content-type'</span>: <span class="string">'application/json'</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    method: <span class="string">'POST'</span>, <span class="comment">// *GET, POST, PUT, DELETE, etc.</span></span><br><span class="line">    mode: <span class="string">'cors'</span>, <span class="comment">// no-cors, cors, *same-origin</span></span><br><span class="line">    redirect: <span class="string">'follow'</span>, <span class="comment">// manual, *follow, error</span></span><br><span class="line">    referrer: <span class="string">'no-referrer'</span>, <span class="comment">// *client, no-referrer</span></span><br><span class="line">  &#125;).then(<span class="function"><span class="params">response</span> =&gt;</span> response.json()); <span class="comment">// parses response to JSON</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="取消请求"><a href="#取消请求" class="headerlink" title="取消请求"></a>取消请求</h3><p><code>axios</code> 提供了<a href="https://github.com/axios/axios#cancellation" target="_blank" rel="noopener">取消请求</a>的方法，但 <code>fetch</code> 不支持，不过可以模拟一下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 源代码地址： https://louiszhai.github.io/2016/11/02/fetch/#</span></span><br><span class="line"><span class="keyword">const</span> _fetch = (<span class="function"><span class="keyword">function</span>(<span class="params">fetch</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">url, options</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> abort = <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">var</span> abort_promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">      abort = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        reject(<span class="string">'abort.'</span>);</span><br><span class="line">        <span class="built_in">console</span>.info(<span class="string">'abort done.'</span>);</span><br><span class="line">      &#125;;</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">var</span> promise = <span class="built_in">Promise</span>.race([fetch(url, options), abort_promise]);</span><br><span class="line">    promise.abort = abort;</span><br><span class="line">    <span class="keyword">return</span> promise;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;)(fetch);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> p = _fetch(<span class="string">'https://www.baidu.com'</span>, &#123; <span class="attr">mode</span>: <span class="string">'no-cors'</span> &#125;);</span><br><span class="line">p.then(</span><br><span class="line">  <span class="function"><span class="keyword">function</span>(<span class="params">res</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'response:'</span>, res);</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'error:'</span>, e);</span><br><span class="line">  &#125;,</span><br><span class="line">);</span><br><span class="line">p.abort();</span><br><span class="line"><span class="comment">//"abort done."</span></span><br><span class="line"><span class="comment">//"error: abort."</span></span><br></pre></td></tr></table></figure>
+<h3 id="timeout"><a href="#timeout" class="headerlink" title="timeout"></a>timeout</h3><p>超时也可以通过 <code>Promise.race</code> 来模拟实现：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> _fetch = (<span class="function"><span class="keyword">function</span>(<span class="params">fetch</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">url, options</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> abort = <span class="literal">null</span>,</span><br><span class="line">      timeout = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">var</span> abort_promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">      abort = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        reject(<span class="string">'timeout.'</span>);</span><br><span class="line">        <span class="built_in">console</span>.info(<span class="string">'abort done.'</span>);</span><br><span class="line">      &#125;;</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">var</span> promise = <span class="built_in">Promise</span>.race([fetch(url, options), abort_promise]);</span><br><span class="line">    promise.abort = abort;</span><br><span class="line">    <span class="built_in">Object</span>.defineProperty(promise, <span class="string">'timeout'</span>, &#123;</span><br><span class="line">      set: <span class="function"><span class="keyword">function</span>(<span class="params">ts</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> ((ts = +ts)) &#123;</span><br><span class="line">          timeout = ts;</span><br><span class="line">          setTimeout(abort, ts);</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      get: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> timeout;</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">return</span> promise;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;)(fetch);</span><br><span class="line"><span class="keyword">var</span> p = _fetch(<span class="string">'https://www.baidu.com'</span>, &#123; <span class="attr">mode</span>: <span class="string">'no-cors'</span> &#125;);</span><br><span class="line">p.then(</span><br><span class="line">  <span class="function"><span class="keyword">function</span>(<span class="params">res</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'response:'</span>, res);</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'error:'</span>, e);</span><br><span class="line">  &#125;,</span><br><span class="line">);</span><br><span class="line">p.timeout = <span class="number">1</span>;</span><br><span class="line"><span class="comment">//"abort done."</span></span><br><span class="line"><span class="comment">//"error: timeout."</span></span><br></pre></td></tr></table></figure>
+<h3 id="progress"><a href="#progress" class="headerlink" title="progress"></a>progress</h3><p><code>fetch</code> 虽然没有提供 <code>progress</code> 方案，不过借助返回的 <code>body</code> 中的 <code>getReader()</code> 方法，也能实现：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">consume</span>(<span class="params">reader</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> total = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">pump</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      reader</span><br><span class="line">        .read()</span><br><span class="line">        .then(<span class="function">(<span class="params">&#123; done, value &#125;</span>) =&gt;</span> &#123;</span><br><span class="line">          <span class="keyword">if</span> (done) &#123;</span><br><span class="line">            resolve();</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">          &#125;</span><br><span class="line">          total += value.byteLength;</span><br><span class="line">          <span class="built_in">console</span>.log(</span><br><span class="line">            <span class="string">`received <span class="subst">$&#123;value.byteLength&#125;</span> bytes (<span class="subst">$&#123;total&#125;</span> bytes in total)`</span>,</span><br><span class="line">          );</span><br><span class="line">          pump();</span><br><span class="line">        &#125;)</span><br><span class="line">        .catch(reject);</span><br><span class="line">    &#125;</span><br><span class="line">    pump();</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line">fetch(<span class="string">'http://localhost:10101/notification/'</span>, &#123; <span class="attr">mode</span>: <span class="string">'no-cors'</span> &#125;)</span><br><span class="line">  .then(<span class="function"><span class="params">res</span> =&gt;</span> consume(res.body.getReader()))</span><br><span class="line">  .then(<span class="function"><span class="params">()</span> =&gt;</span></span><br><span class="line">    <span class="built_in">console</span>.log(</span><br><span class="line">      <span class="string">'consumed the entire body without keeping the whole thing in memory!'</span>,</span><br><span class="line">    ),</span><br><span class="line">  )</span><br><span class="line">  .catch(<span class="function"><span class="params">e</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="string">'something went wrong: '</span> + e));</span><br></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">前端 bug</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">fetch</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">yarn 失效</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">axios</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=https://yepbug.com/2019/01/13/why-not-use-fetch/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2018/12/09/how-does-setstate-know-what-to-do/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">React.js 的 setState 是如何工作的？</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-    
+  
+
+  
+    <section id="comments">
+      <div id="disqus_thread"></div>
+        <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'true'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </section>
+  
+
+  
 
 
           </div>
@@ -216,9 +339,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: true,
 		toc_hide_index: true,
