@@ -23,7 +23,7 @@
 <meta property="og:site_name" content="Yepbug&#39;s Blog | 萤火之未">
 <meta property="og:description" content="冒泡排序持续比较相邻元素，较小的元素前移，较大的元素后挪，因而称为冒泡排序。比较好理解，算法时间复杂度为 O(n^2)，空间复杂的为 O(1)。 12345678910111213function bubbleSort(arr) &amp;#123;  for (let i = 0; i &amp;lt; arr.length; i++) &amp;#123;    for (let j = 1; j &amp;lt; arr.">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-01-15T01:12:33.641Z">
+<meta property="og:updated_time" content="2019-01-16T14:52:58.024Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Javascript 中的几种排序方法">
 <meta name="twitter:description" content="冒泡排序持续比较相邻元素，较小的元素前移，较大的元素后挪，因而称为冒泡排序。比较好理解，算法时间复杂度为 O(n^2)，空间复杂的为 O(1)。 12345678910111213function bubbleSort(arr) &amp;#123;  for (let i = 0; i &amp;lt; arr.length; i++) &amp;#123;    for (let j = 1; j &amp;lt; arr.">
@@ -165,7 +165,7 @@
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bubbleSort</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; arr.length; i++) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> j = <span class="number">1</span>; j &lt; arr.length - i; j++) &#123;</span><br><span class="line">      <span class="keyword">if</span> (arr[j - <span class="number">1</span>] &gt; arr[j]) &#123;</span><br><span class="line">        <span class="keyword">let</span> tmp = arr[j];</span><br><span class="line">        arr[j] = arr[j - <span class="number">1</span>];</span><br><span class="line">        arr[j - <span class="number">1</span>] = tmp;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> arr;</span><br><span class="line">&#125;</span><br><span class="line">bubbleSort([<span class="number">6</span>, <span class="number">5</span>, <span class="number">3</span>, <span class="number">1</span>, <span class="number">8</span>, <span class="number">7</span>, <span class="number">2</span>, <span class="number">4</span>]);</span><br></pre></td></tr></table></figure>
 <h2 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h2><p>顾名思义，始终选择最小的元素往前插。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">findSmallest</span>(<span class="params">arr, start</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = start; i &lt; arr.length; i++) &#123;</span><br><span class="line">    <span class="keyword">if</span> (arr[i] &lt; arr[start]) &#123;</span><br><span class="line">      start = i;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> start;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">selectionSort</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; arr.length; i++) &#123;</span><br><span class="line">    <span class="keyword">let</span> smallest = findSmallest(arr, i);</span><br><span class="line">    [arr[i], arr[smallest]] = [arr[smallest], arr[i]];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> arr;</span><br><span class="line">&#125;</span><br><span class="line">selectionSort([<span class="number">6</span>, <span class="number">5</span>, <span class="number">3</span>, <span class="number">1</span>, <span class="number">8</span>, <span class="number">7</span>, <span class="number">2</span>, <span class="number">4</span>]);</span><br></pre></td></tr></table></figure>
-<h2 id="快排"><a href="#快排" class="headerlink" title="快排"></a>快排</h2><p>快排最佳时间复杂度为 O(nlogn)，最差时为 O(n^2)，注意取决于 pivot 的取值。</p>
+<h2 id="快排"><a href="#快排" class="headerlink" title="快排"></a>快排</h2><p>快排最佳时间复杂度为 O(nlogn)，最差时为 O(n^2)，主要取决于 pivot 的取值。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">qSort</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (arr.length &lt; <span class="number">2</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> arr;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> pivot = arr[<span class="number">0</span>];</span><br><span class="line">  <span class="keyword">const</span> smaller = getSmaller(arr, pivot);</span><br><span class="line">  <span class="keyword">const</span> bigger = getBigger(arr, pivot);</span><br><span class="line">  <span class="keyword">return</span> [...qSort(smaller), pivot, ...qSort(bigger)];</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getSmaller</span>(<span class="params">arr, i</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> arr.filter(<span class="function"><span class="params">v</span> =&gt;</span> v &lt; i);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getBigger</span>(<span class="params">arr, i</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> arr.filter(<span class="function"><span class="params">v</span> =&gt;</span> v &gt; i);</span><br><span class="line">&#125;</span><br><span class="line">qSort([<span class="number">6</span>, <span class="number">5</span>, <span class="number">3</span>, <span class="number">1</span>, <span class="number">8</span>, <span class="number">7</span>, <span class="number">2</span>, <span class="number">4</span>]);</span><br></pre></td></tr></table></figure>
 
       
@@ -288,23 +288,22 @@
   
 
   
+    <section id="comments">
+      <div id="disqus_thread"></div>
+        <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'true'; // required: replace example with your forum shortname
 
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </section>
   
-  <div id="gitment-ctn"></div>
-<link rel="stylesheet" href="//imsun.github.io/gitment/style/default.css">
-<script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
-<script>
-  var gitment = new Gitment({
-    id: "Mon Jan 14 2019 20:37:03 GMT+0800",
-    owner: 'yepbug',
-    repo: 'yepbug.github.io',
-    oauth: {
-      client_id: '4fed3e609286883356ce',
-      client_secret: '8144f597a86cec6da60cb40547dffb46e47ae9c5',
-    },
-  })
-  gitment.render('gitment-ctn')
-</script>
 
   
 
@@ -333,7 +332,7 @@
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
-		open_in_new: false,
+		open_in_new: true,
 		toc_hide_index: true,
 		root: "/",
 		innerArchive: true,
@@ -423,10 +422,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">macOS APP</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">react</a>
               </li>
              
@@ -439,23 +434,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">macOS APP</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">前端 bug</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">yarn 失效</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">TypeScript</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">react.js</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">react.js hooks</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -471,11 +458,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">node_modules</a>
+                <a href="javascript:void(0)" class="js-tag color1">TypeScript</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">babel</a>
+                <a href="javascript:void(0)" class="js-tag color4">react.js</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">react.js hooks</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -484,6 +475,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">axios</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">node_modules</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">babel</a>
               </li>
             
             <div class="clearfix"></div>
