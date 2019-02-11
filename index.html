@@ -136,6 +136,138 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-javascript-valueOf-toString" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/02/11/javascript-valueOf-toString/">JS 中的 valueOf 和 toString</a>
+    </h1>
+  
+
+        
+        <a href="/2019/02/11/javascript-valueOf-toString/" class="archive-article-date">
+  	<time datetime="2019-02-11T12:51:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-11</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>先上一段代码，问题是以下代码是否可能返回 <code>true</code>：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a == <span class="number">1</span> &amp;&amp; a !== <span class="number">1</span> &amp;&amp; a == <span class="number">3</span> &amp;&amp; a == <span class="number">4</span>;</span><br></pre></td></tr></table></figure>
+<p>这个问题有点刁钻，无论答对答错，体现不了前端水平的高低。因为其中涉及到的知识点，可能大家都知道，只是想不到。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> count = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">let</span> a = &#123;</span><br><span class="line">  valueOf() &#123;</span><br><span class="line">    <span class="keyword">return</span> ++count;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line">a == <span class="number">1</span> &amp;&amp; a != <span class="number">1</span> &amp;&amp; a == <span class="number">3</span> &amp;&amp; a == <span class="number">4</span>; <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<p>上面的代码，涉及到的知识点拓展开来的话，似乎还可以成为面试题：</p>
+<ul>
+<li>JS 中对象类型如何转换为基本类型</li>
+<li>为什么不少代码规范中，禁止使用 <code>==</code></li>
+<li>JS 中基础类型之间是如何转换的</li>
+<li>JS 中 <code>==</code> 运算是如何操作的</li>
+</ul>
+<p>对象如果需要转换为基本类型，需要调用对象自己的转换为基本类型的方法（废话，但有用）：</p>
+<ul>
+<li>在 ES5 之前，会首先调用 <code>valueOf</code> 方法，如果没有这个方法，会调用 <code>toString</code> 方法；如果对象本身没有这俩方法的话，原型链上肯定有<code>toString</code>啊；这里其实可以顺便提一嘴 <code>typeOf</code>，<code>instanceof</code>，<code>Object.prototype.toString</code> 获取对象类型；</li>
+<li>ES5 之后，则会首先调用 <code>Symbol.toPrimitive</code> 方法，之后才是 <code>valueOf</code>，<code>toString</code>；</li>
+<li>如果返回的不是原始类型数据的话，会报一个错误：<code>​​Cannot convert object to primitive value​​</code></li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> count = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">let</span> a = &#123;</span><br><span class="line">  toString() &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">'count'</span>;</span><br><span class="line">  &#125;,</span><br><span class="line">  valueOf() &#123;</span><br><span class="line">    <span class="keyword">return</span> ++count;</span><br><span class="line">  &#125;,</span><br><span class="line">  [<span class="built_in">Symbol</span>.toPrimitive]() &#123;</span><br><span class="line">    <span class="keyword">return</span> --count;</span><br><span class="line">    <span class="comment">// 如果这里 return &#123;&#125;; 则会有下面的错误提示</span></span><br><span class="line">    <span class="comment">// Cannot convert object to primitive value​​</span></span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line">a == <span class="number">-1</span> &amp;&amp; a != <span class="number">-1</span> &amp;&amp; a == <span class="number">-3</span> &amp;&amp; a == <span class="number">-4</span>; <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<p>至于基础类型之间的转换，先要明确 JS 中都有哪些基础类型：</p>
+<ul>
+<li>boolean</li>
+<li>null</li>
+<li>undefined</li>
+<li>number</li>
+<li>string</li>
+<li>symbol</li>
+</ul>
+<h2 id="加法运算"><a href="#加法运算" class="headerlink" title="加法运算"></a>加法运算</h2><ul>
+<li>一方为字符串，另一方也转化为字符串</li>
+<li>一方不是字符串或数字，则将其转化为字符串或数字；对象类型转换为基本类型在上面已经提过；</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = &#123;</span><br><span class="line">  valueOf() &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">100</span>;</span><br><span class="line">  &#125;,</span><br><span class="line">  toString() &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">'aaa'</span>;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">let</span> b = &#123;</span><br><span class="line">  toString() &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">'bbb'</span>;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line">a + <span class="literal">true</span>; <span class="comment">// 101</span></span><br><span class="line">a + <span class="string">'1'</span>; <span class="comment">// 1001</span></span><br><span class="line">b + <span class="number">1</span>; <span class="comment">// bbb1</span></span><br></pre></td></tr></table></figure>
+<h2 id="四则运算中的其他运算"><a href="#四则运算中的其他运算" class="headerlink" title="四则运算中的其他运算"></a>四则运算中的其他运算</h2><p>强转为数字，转换失败为 <code>NaN</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = &#123;</span><br><span class="line">  valueOf() &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">100</span>;</span><br><span class="line">  &#125;,</span><br><span class="line">  toString() &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">'aaa'</span>;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">let</span> b = &#123;</span><br><span class="line">  toString() &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">'bbb'</span>;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">`<span class="subst">$&#123;a&#125;</span>`</span>); <span class="comment">// aaa</span></span><br><span class="line">a * <span class="literal">true</span>; <span class="comment">// 100</span></span><br><span class="line">a / <span class="string">'1'</span>; <span class="comment">// 100</span></span><br><span class="line">a - <span class="string">'a'</span>; <span class="comment">// NaN</span></span><br><span class="line">b * <span class="number">1</span>; <span class="comment">// NaN</span></span><br></pre></td></tr></table></figure>
+<h2 id="基础类型之间的转换"><a href="#基础类型之间的转换" class="headerlink" title="基础类型之间的转换"></a>基础类型之间的转换</h2><ul>
+<li>转为 boolean 类型：除了 0， -0， NaN，’’，undefined，null 之外，都为 true</li>
+<li>转为字符串：<code>1</code> 变成 <code>&#39;1&#39;</code>，<code>true</code> 变成 <code>&#39;true&#39;</code>。需要注意的是，<code>Symbol</code> 不能与其他类型的值进行运算，转换为字符串时，需要自行调用 <code>toString</code> 方法。要说原因，总结成一句话就是<a href="https://stackoverflow.com/questions/44425974/why-cannot-convert-a-symbol-value-to-a-string" target="_blank" rel="noopener">规范如此</a>。更多见代码：</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span> + <span class="string">'1'</span>; <span class="comment">// 11</span></span><br><span class="line"><span class="literal">null</span> + <span class="string">'1'</span>; <span class="comment">// null1</span></span><br><span class="line"><span class="literal">undefined</span> + <span class="string">'1'</span>; <span class="comment">// undefined1</span></span><br><span class="line"><span class="literal">true</span> + <span class="string">'1'</span>; <span class="comment">// true1</span></span><br><span class="line"><span class="built_in">Symbol</span>(<span class="string">'foo'</span>).toString() + <span class="string">'1'</span>; <span class="comment">// ​​​​​Symbol(foo)1​​​​​</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>转换为数字</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span> + <span class="literal">true</span>; <span class="comment">// 2</span></span><br><span class="line"><span class="number">1</span> + <span class="literal">false</span>; <span class="comment">// 1</span></span><br><span class="line"><span class="built_in">Number</span>(<span class="string">'1'</span>); <span class="comment">// 1</span></span><br><span class="line"><span class="built_in">Number</span>(<span class="string">'a'</span>); <span class="comment">// NaN</span></span><br><span class="line"><span class="built_in">Number</span>(<span class="built_in">Symbol</span>(<span class="string">'foo'</span>)); <span class="comment">// error</span></span><br><span class="line"><span class="built_in">Number</span>([]); <span class="comment">// 0</span></span><br><span class="line"><span class="built_in">Number</span>([<span class="number">99</span>]); <span class="comment">// 99</span></span><br><span class="line"><span class="built_in">Number</span>([<span class="number">99</span>, <span class="number">100</span>]); <span class="comment">// NaN</span></span><br><span class="line"><span class="built_in">Number</span>(&#123;</span><br><span class="line">  valueOf() &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">100</span>;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;); <span class="comment">// 100</span></span><br></pre></td></tr></table></figure>
+<h2 id="运算"><a href="#运算" class="headerlink" title="== 运算"></a>== 运算</h2><ul>
+<li>null == undefined</li>
+<li>双方分别为字符串和数字，转换为数字后比较</li>
+<li>其中一方为布尔值，则将布尔值转换为数字后再比较</li>
+<li>一方为对象，另一方为基础类型，对象转换为基础类型之后再比较；</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">10</span> &lt; <span class="string">'a'</span>; <span class="comment">// false</span></span><br><span class="line"><span class="number">10</span> &gt; <span class="string">'a'</span>; <span class="comment">// false</span></span><br><span class="line"><span class="number">10</span> == <span class="string">'a'</span>; <span class="comment">// false</span></span><br><span class="line"><span class="comment">// 'a' 转换为数字后，是 NaN</span></span><br><span class="line"><span class="keyword">let</span> s = <span class="built_in">Symbol</span>(<span class="string">'a'</span>);</span><br><span class="line"><span class="keyword">let</span> a = &#123;</span><br><span class="line">  valueOf() &#123;</span><br><span class="line">    <span class="keyword">return</span> s;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line">a == s; <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<p>知道以上知识，并不能让你在写代码的时候变得更牛逼；因为与其去记住这些角角落落的东西，不如加一个代码检查工具。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">javascript</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">valueOf</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">toString</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/02/11/javascript-valueOf-toString/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-js-sort" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
@@ -160,7 +292,7 @@
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bubbleSort</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; arr.length; i++) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> j = <span class="number">1</span>; j &lt; arr.length - i; j++) &#123;</span><br><span class="line">      <span class="keyword">if</span> (arr[j - <span class="number">1</span>] &gt; arr[j]) &#123;</span><br><span class="line">        <span class="keyword">let</span> tmp = arr[j];</span><br><span class="line">        arr[j] = arr[j - <span class="number">1</span>];</span><br><span class="line">        arr[j - <span class="number">1</span>] = tmp;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> arr;</span><br><span class="line">&#125;</span><br><span class="line">bubbleSort([<span class="number">6</span>, <span class="number">5</span>, <span class="number">3</span>, <span class="number">1</span>, <span class="number">8</span>, <span class="number">7</span>, <span class="number">2</span>, <span class="number">4</span>]);</span><br></pre></td></tr></table></figure>
 <h2 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h2><p>顾名思义，始终选择最小的元素往前插。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">findSmallest</span>(<span class="params">arr, start</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = start; i &lt; arr.length; i++) &#123;</span><br><span class="line">    <span class="keyword">if</span> (arr[i] &lt; arr[start]) &#123;</span><br><span class="line">      start = i;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> start;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">selectionSort</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; arr.length; i++) &#123;</span><br><span class="line">    <span class="keyword">let</span> smallest = findSmallest(arr, i);</span><br><span class="line">    [arr[i], arr[smallest]] = [arr[smallest], arr[i]];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> arr;</span><br><span class="line">&#125;</span><br><span class="line">selectionSort([<span class="number">6</span>, <span class="number">5</span>, <span class="number">3</span>, <span class="number">1</span>, <span class="number">8</span>, <span class="number">7</span>, <span class="number">2</span>, <span class="number">4</span>]);</span><br></pre></td></tr></table></figure>
-<h2 id="快排"><a href="#快排" class="headerlink" title="快排"></a>快排</h2><p>快排最佳时间复杂度为 O(nlogn)，最差时为 O(n^2)，主要取决于 pivot 的取值。</p>
+<h2 id="快排"><a href="#快排" class="headerlink" title="快排"></a>快排</h2><p>快排最佳时间复杂度为 O(n*log n)，最差时为 O(n^2)，主要取决于 pivot 的取值。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">qSort</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (arr.length &lt; <span class="number">2</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> arr;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> pivot = arr[<span class="number">0</span>];</span><br><span class="line">  <span class="keyword">const</span> smaller = getSmaller(arr, pivot);</span><br><span class="line">  <span class="keyword">const</span> bigger = getBigger(arr, pivot);</span><br><span class="line">  <span class="keyword">return</span> [...qSort(smaller), pivot, ...qSort(bigger)];</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getSmaller</span>(<span class="params">arr, i</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> arr.filter(<span class="function"><span class="params">v</span> =&gt;</span> v &lt; i);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getBigger</span>(<span class="params">arr, i</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> arr.filter(<span class="function"><span class="params">v</span> =&gt;</span> v &gt; i);</span><br><span class="line">&#125;</span><br><span class="line">qSort([<span class="number">6</span>, <span class="number">5</span>, <span class="number">3</span>, <span class="number">1</span>, <span class="number">8</span>, <span class="number">7</span>, <span class="number">2</span>, <span class="number">4</span>]);</span><br></pre></td></tr></table></figure>
 
       
@@ -887,7 +1019,7 @@
 <p>之前的 context API 的很大缺陷是：顶层的 Provider 组件向目标组件透传的时候，如果中间某个组件的 shouldComponentUpdate 返回了 false，那么新的 context 值就无法到达目标组件，看一下下面的代码实例：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> ReactDOM <span class="keyword">from</span> <span class="string">'react-dom'</span>;</span><br><span class="line"><span class="keyword">import</span> PropTypes <span class="keyword">from</span> <span class="string">'prop-types'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// TodoList 继承自 PureComponent</span></span><br><span class="line"><span class="comment">// 因此传入值不变的话，shouldComponentUpdate 会返回 false</span></span><br><span class="line"><span class="comment">// ThemedText 的就会无法更新</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TodoList</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">PureComponent</span> </span>&#123;</span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;ul&gt;</span><br><span class="line">        &#123;<span class="keyword">this</span>.props.todoList.map(<span class="function">(<span class="params">item, index</span>) =&gt;</span> (</span><br><span class="line">          &lt;li key=&#123;index&#125;&gt;</span><br><span class="line">            &lt;ThemedText&gt;&#123;item&#125;&lt;<span class="regexp">/ThemedText&gt;</span></span><br><span class="line"><span class="regexp">          &lt;/</span>li&gt;</span><br><span class="line">        ))&#125;</span><br><span class="line">      &lt;<span class="regexp">/ul&gt;</span></span><br><span class="line"><span class="regexp">    );</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">class ThemeProvider extends React.Component &#123;</span></span><br><span class="line"><span class="regexp">  getChildContext() &#123;</span></span><br><span class="line"><span class="regexp">    return &#123; color: this.props.color &#125;;</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">  render() &#123;</span></span><br><span class="line"><span class="regexp">    return &lt;div&gt;&#123;this.props.children&#125;&lt;/</span>div&gt;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">ThemeProvider.childContextTypes = &#123;</span><br><span class="line">  color: PropTypes.string,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ThemedText</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;div style=&#123;&#123; <span class="attr">color</span>: <span class="keyword">this</span>.context.color &#125;&#125;&gt;&#123;<span class="keyword">this</span>.props.children&#125;&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">    );</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp">ThemedText.contextTypes = &#123;</span></span><br><span class="line"><span class="regexp">  color: PropTypes.string,</span></span><br><span class="line"><span class="regexp">&#125;;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">class App extends React.Component &#123;</span></span><br><span class="line"><span class="regexp">  state = &#123;</span></span><br><span class="line"><span class="regexp">    color: 'black',</span></span><br><span class="line"><span class="regexp">    todoList: ['学习 Vue', '学习 React', '学习 Angular'],</span></span><br><span class="line"><span class="regexp">  &#125;;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">  onClickRed = () =&gt; &#123;</span></span><br><span class="line"><span class="regexp">    this.setState(&#123; color: 'red' &#125;);</span></span><br><span class="line"><span class="regexp">  &#125;;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">  onAddTodo = () =&gt; &#123;</span></span><br><span class="line"><span class="regexp">    const todoList = [...this.state.todoList];</span></span><br><span class="line"><span class="regexp">    todoList.push('真的变红');</span></span><br><span class="line"><span class="regexp">    this.setState(&#123;</span></span><br><span class="line"><span class="regexp">      todoList,</span></span><br><span class="line"><span class="regexp">    &#125;);</span></span><br><span class="line"><span class="regexp">  &#125;;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">  /</span><span class="regexp">/ shouldComponentUpdate() &#123;</span></span><br><span class="line"><span class="regexp">  /</span><span class="regexp">/   return false;</span></span><br><span class="line"><span class="regexp">  /</span><span class="regexp">/ &#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">  render() &#123;</span></span><br><span class="line"><span class="regexp">    return (</span></span><br><span class="line"><span class="regexp">      &lt;ThemeProvider color=&#123;this.state.color&#125;&gt;</span></span><br><span class="line"><span class="regexp">        &lt;button onClick=&#123;this.onClickRed&#125;&gt;</span></span><br><span class="line"><span class="regexp">          &lt;ThemedText&gt;变红~&lt;/</span>ThemedText&gt;</span><br><span class="line">        &lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">        &lt;button onClick=&#123;this.onAddTodo&#125;&gt;真的变红&lt;/</span>button&gt;</span><br><span class="line">        &lt;TodoList todoList=&#123;<span class="keyword">this</span>.state.todoList&#125; /&gt;</span><br><span class="line">      &lt;<span class="regexp">/ThemeProvider&gt;</span></span><br><span class="line"><span class="regexp">    );</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">ReactDOM.render(&lt;App /</span>&gt;, <span class="built_in">document</span>.getElementById(<span class="string">'root'</span>));</span><br></pre></td></tr></table></figure>
 <p>上面的例子中，<code>TodoList</code> 继承自 <code>PureComponent</code>，所以传入值不变的情况下，<code>shouldComponentUpdate</code> 始终返回 <code>false</code>。由于老版本 <code>context</code> API 的缺陷，<code>ThemedText</code> 组件无法拿到更新后的值。所以，点击变红按钮，TodoList 中的文字没有变色；而当增加一个 TODO 时，<code>shouldComponentUpdate</code> 返回 <code>true</code>，新的 context 才传递下来。新的 <code>context</code> API 解决了这个缺陷，类似的代码如下：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> ThemeContext = React.createContext(&#123;</span><br><span class="line">  color: <span class="string">'black'</span>,</span><br><span class="line">&#125;);</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ThemedText</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;div style=&#123;&#123; <span class="attr">color</span>: <span class="keyword">this</span>.context.color &#125;&#125;&gt;&#123;<span class="keyword">this</span>.props.children&#125;&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">    );</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp">ThemedText.contextType = ThemeContext;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">/</span><span class="regexp">/ 即使 shouldComponentUpdate 返回 false，context 值也能传递下去</span></span><br><span class="line"><span class="regexp">class TodoList extends React.PureComponent &#123;</span></span><br><span class="line"><span class="regexp">  render() &#123;</span></span><br><span class="line"><span class="regexp">    return (</span></span><br><span class="line"><span class="regexp">      &lt;ul&gt;</span></span><br><span class="line"><span class="regexp">        &#123;this.props.todoList.map((item, index) =&gt; (</span></span><br><span class="line"><span class="regexp">          &lt;li key=&#123;index&#125;&gt;</span></span><br><span class="line"><span class="regexp">            &lt;ThemedText&gt;&#123;item&#125;&lt;/</span>ThemedText&gt;</span><br><span class="line">          &lt;<span class="regexp">/li&gt;</span></span><br><span class="line"><span class="regexp">        ))&#125;</span></span><br><span class="line"><span class="regexp">      &lt;/u</span>l&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">App</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  state = &#123;</span><br><span class="line">    theme: &#123;</span><br><span class="line">      color: <span class="string">'black'</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    todoList: [<span class="string">'学习 Vue'</span>, <span class="string">'学习 React'</span>, <span class="string">'学习 Angular'</span>],</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  onClickRed = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">this</span>.setState(&#123;</span><br><span class="line">      theme: &#123;</span><br><span class="line">        color: <span class="string">'red'</span>,</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  onAddTodo = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> todoList = [...this.state.todoList];</span><br><span class="line">    todoList.push(<span class="string">'真的变红'</span>);</span><br><span class="line">    <span class="keyword">this</span>.setState(&#123;</span><br><span class="line">      todoList,</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// shouldComponentUpdate() &#123;</span></span><br><span class="line">  <span class="comment">//   return false;</span></span><br><span class="line">  <span class="comment">// &#125;</span></span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;ThemeContext.Provider value=&#123;<span class="keyword">this</span>.state.theme&#125;&gt;</span><br><span class="line">        &lt;button onClick=&#123;<span class="keyword">this</span>.onClickRed&#125;&gt;</span><br><span class="line">          &lt;ThemedText&gt;变红~&lt;/ThemedText&gt;</span><br><span class="line">        &lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">        &lt;button onClick=&#123;this.onAddTodo&#125;&gt;真的变红&lt;/</span>button&gt;</span><br><span class="line">        &lt;TodoList todoList=&#123;<span class="keyword">this</span>.state.todoList&#125; /&gt;</span><br><span class="line">      &lt;<span class="regexp">/ThemeContext.Provider&gt;</span></span><br><span class="line"><span class="regexp">    );</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">ReactDOM.render(&lt;App /</span>&gt;, <span class="built_in">document</span>.getElementById(<span class="string">'root'</span>));</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> ThemeContext = React.createContext(&#123;</span><br><span class="line">  color: <span class="string">'black'</span>,</span><br><span class="line">&#125;);</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ThemedText</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;div style=&#123;&#123; <span class="attr">color</span>: <span class="keyword">this</span>.context.color &#125;&#125;&gt;&#123;<span class="keyword">this</span>.props.children&#125;&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">    );</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp">ThemedText.contextType = ThemeContext;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">/</span><span class="regexp">/ 即使 shouldComponentUpdate 返回 false，context 值也能传递下去</span></span><br><span class="line"><span class="regexp">class TodoList extends React.PureComponent &#123;</span></span><br><span class="line"><span class="regexp">  render() &#123;</span></span><br><span class="line"><span class="regexp">    return (</span></span><br><span class="line"><span class="regexp">      &lt;ul&gt;</span></span><br><span class="line"><span class="regexp">        &#123;this.props.todoList.map((item, index) =&gt; (</span></span><br><span class="line"><span class="regexp">          &lt;li key=&#123;index&#125;&gt;</span></span><br><span class="line"><span class="regexp">            &lt;ThemedText&gt;&#123;item&#125;&lt;/</span>ThemedText&gt;</span><br><span class="line">          &lt;<span class="regexp">/li&gt;</span></span><br><span class="line"><span class="regexp">        ))&#125;</span></span><br><span class="line"><span class="regexp">      &lt;/u</span>l&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">App</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  state = &#123;</span><br><span class="line">    theme: &#123;</span><br><span class="line">      color: <span class="string">'black'</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    todoList: [<span class="string">'学习 Vue'</span>, <span class="string">'学习 React'</span>, <span class="string">'学习 Angular'</span>],</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  onClickRed = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">this</span>.setState(&#123;</span><br><span class="line">      theme: &#123;</span><br><span class="line">        color: <span class="string">'red'</span>,</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  onAddTodo = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> todoList = [...this.state.todoList];</span><br><span class="line">    todoList.push(<span class="string">'真的变红'</span>);</span><br><span class="line">    <span class="keyword">this</span>.setState(&#123;</span><br><span class="line">      todoList,</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// shouldComponentUpdate() &#123;</span></span><br><span class="line">  <span class="comment">//   return false;</span></span><br><span class="line">  <span class="comment">// &#125;</span></span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;ThemeContext.Provider value=&#123;<span class="keyword">this</span>.state.theme&#125;&gt;</span><br><span class="line">        &lt;button onClick=&#123;<span class="keyword">this</span>.onClickRed&#125;&gt;</span><br><span class="line">          &lt;ThemedText&gt;变红~<span class="xml"><span class="tag">&lt;/<span class="name">ThemedText</span>&gt;</span></span></span><br><span class="line">        &lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">        &lt;button onClick=&#123;this.onAddTodo&#125;&gt;真的变红&lt;/</span>button&gt;</span><br><span class="line">        &lt;TodoList todoList=&#123;<span class="keyword">this</span>.state.todoList&#125; /&gt;</span><br><span class="line">      &lt;<span class="regexp">/ThemeContext.Provider&gt;</span></span><br><span class="line"><span class="regexp">    );</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">ReactDOM.render(&lt;App /</span>&gt;, <span class="built_in">document</span>.getElementById(<span class="string">'root'</span>));</span><br></pre></td></tr></table></figure>
 <p>在使用老版本的 React 时，为了避免这个 “bug”，可以使用 “react-redux”；而现在无需 redux 我们就可以克服 <code>shouldComponentUpdate</code> 返回 <code>false</code> 的障碍。</p>
 
       
@@ -921,103 +1053,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2018/11/11/react-context-and-simple-redux/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-when-i-peeked-into-node-modules-directory" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/11/07/when-i-peeked-into-node-modules-directory/">对不起，就是要在你的 node_modules 里下毒！</a>
-    </h1>
-  
-
-        
-        <a href="/2018/11/07/when-i-peeked-into-node-modules-directory/" class="archive-article-date">
-  	<time datetime="2018-11-07T08:05:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><em><a href="https://github.com/dominictarr/event-stream/issues/116#issuecomment-441759047" target="_blank" rel="noopener">我不知道该说啥了</a></em>没想到这篇开玩笑的文章竟然「预言成真」。各位真的应该好好审视一下 node_modules 的利弊了。大公司有条件，可以从各个流程都打造一套自己的工具，小公司该怎么办呢？😩</p>
-<p>今天翻到一篇<a href="https://medium.com/s/silicon-satire/i-peeked-into-my-node-modules-directory-and-you-wont-believe-what-happened-next-b89f63d21558" target="_blank" rel="noopener">旧闻</a>，讲的是作者查阅 node_modules 文件夹时发现的“奇闻”。实际上，作者在文中描述的情形并不存在，不过，也该给依赖 node_modules 的大家敲响警钟，因为我们确实不知道 node_modules 里都装了啥。<strong>再次声明，这是在 React.js 因 left-pad 崩溃事件之后的一篇讽刺文。</strong>原文评论已经不可见，不过，根据其他地方的反馈来看，评论区应该已经沦陷 —— 不少人根本没去安装文中提到的几个框架，就开始评论了。</p>
-<h2 id="Express"><a href="#Express" class="headerlink" title="Express"></a>Express</h2><p>Express 和 Koa 是 Node.js 服务端开发绕不开的两大框架。不过数数 Express 依赖了多少个包，你可能就不那么确定是不是要继续用它了。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$tree</span> node_modules/ | wc -l</span><br><span class="line">381</span><br></pre></td></tr></table></figure>
-<p>381 个包啊（<em>注：原文成文时，包的个数为 292</em>）！如果你开的车，是由将近四百种不知道什么厂产的零件构成，你慌不慌？作者查看了 Express 的依赖，有的包看着挺正常的，比如 <code>escape-html</code> 等等。不过一个 <code>yummy</code> 的包引起了作者的注意。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">├── yummy</span><br><span class="line">│ ├── LICENSE</span><br><span class="line">│ ├── README.md</span><br><span class="line">│ ├── like-tweet.js</span><br><span class="line">│ ├── index.js</span><br><span class="line">│ └── package.json</span><br></pre></td></tr></table></figure>
-<p>其中的 <code>like-tweet.js</code> 里，放的是这样的代码：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> http = <span class="built_in">require</span>(“http”)</span><br><span class="line">http.request(&#123;</span><br><span class="line">  method: “POST”,</span><br><span class="line">  hostname: “api.twitter.com”,</span><br><span class="line">  path: “/hotpockets/status/<span class="number">501511389320470528</span>”,</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<p>作者一番查证后发现，这段代码的作用就是给一条 Hot Pockets 的推特点赞~用你个包，你就把我的信息全卖了，你是魔鬼 😈 么？</p>
-<h2 id="Ember"><a href="#Ember" class="headerlink" title="Ember"></a>Ember</h2><p>Ember 源码 gzipped 之后，大小仍然有 112k；不过，在作者写这篇文章前，并没有太多人去关注 112k 里到底装了些啥玩意。作者查看 Ember 依赖的时候，发现一个叫 Glimmer 的包，占用了 95k（差不多源码的 95% 了） 的大小。不过，这个包的作用却让人很疑惑。作者 搜遍了 GitHub 和 Google，也没有找到关于这个包的介绍（如果真去搜，是有东西的）。这个包包含了很多 brittanica 打头的模块，每一个模块，都有一个不知所谓的 json 文件：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"g"</span>: &#123;</span><br><span class="line">        <span class="attr">"page"</span>: <span class="number">1018</span>,</span><br><span class="line">        <span class="attr">"description"</span>: <span class="string">"The seventh letter of the US English..."</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">"ga"</span>: &#123;</span><br><span class="line">        <span class="attr">"page"</span>: <span class="number">1021</span>,</span><br><span class="line">        <span class="attr">"description"</span>: <span class="string">"a Kwa language of Ghana, spoken in Acc..."</span></span><br><span class="line">    &#125;,</span><br><span class="line">    ...</span><br><span class="line">    "glimmer": &#123;</span><br><span class="line">        "page": 1172,</span><br><span class="line">        "description": "A faint or wavering light, used pri..."</span><br><span class="line">    &#125;,</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>作者总结了下这堆文件的作用：</p>
-<p>· Ember 吹了一波 Glimmer： 轻量级、效率高<br>· 在帮助菜单里展示 “glimmer” 的定义<br>· 大家都忙着玩 Pokémon，没人关注海洋生态</p>
-<p>疯了吧。。。</p>
-<h2 id="Babel"><a href="#Babel" class="headerlink" title="Babel"></a>Babel</h2><p>如果说前面俩框架，还可以选择不去用，那 Babel 真的是 99% 的前端开发者都会用到了。Babel 本身也因为插件系统，配置问题，报错问题被人诟病过，不过，没人去关注 Babel 依赖了多少包。作者安装了 <code>babel-preset-es2015</code>，查看了下大小：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ ls node_modules | wc -l</span><br><span class="line">    90</span><br><span class="line">$ du -sh node_modules</span><br><span class="line">    17M node_modules</span><br></pre></td></tr></table></figure>
-<p>Babel 做了很多事情，道理我都懂，但它为什么有 17M 这么大？作者花了两个小时的时间，终于找到了罪魁祸首 api/node.js：</p>
-<p><img src="/assets/img/wtf.png" alt="wtf"></p>
-<p>发现原因的时候，作者差点发誓再也不碰 web 开发（：</p>
-<p>值得一提的是，Babel 社区也应该注意到了这篇文章，在这篇文章之前，node.js 文件<a href="https://github.com/babel/babel/blob/dc1f40540de11045bb4714350350e012fee4f93e/packages/babel-core/src/api/node.js" target="_blank" rel="noopener">长这样</a>，而在这篇文章引起广泛关注之后，node.js 文件<a href="https://github.com/babel/babel/blob/f36d07d30334f86412a9d2771880cb566a82a9b6/packages/babel-core/src/api/node.js" target="_blank" rel="noopener">长这样</a>。还真的画了一个人出来，而且为 Babel 的大小道歉，哈哈哈……</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">node_modules</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">babel</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/11/07/when-i-peeked-into-node-modules-directory/">展开全文 >></a>
         </p>
       
 
@@ -1140,7 +1175,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">React.js</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">javascript</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">valueOf</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">toString</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">新世界</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1152,19 +1207,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">新世界</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">React.js</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">js</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">对象复制</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">macOS APP</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">前端 bug</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">yarn 失效</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1180,15 +1239,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">macOS APP</a>
+                <a href="javascript:void(0)" class="js-tag color4">react.js</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">前端 bug</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">yarn 失效</a>
+                <a href="javascript:void(0)" class="js-tag color5">react.js hooks</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1205,14 +1260,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">TypeScript</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">react.js</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">react.js hooks</a>
               </li>
              
               <li class="article-tag-list-item">
