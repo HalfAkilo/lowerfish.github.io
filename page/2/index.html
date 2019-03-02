@@ -136,6 +136,94 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-react-context-and-simple-redux" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/11/11/react-context-and-simple-redux/">正确使用 React context</a>
+    </h1>
+  
+
+        
+        <a href="/2018/11/11/react-context-and-simple-redux/" class="archive-article-date">
+  	<time datetime="2018-11-11T05:15:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-11</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>React 的 context API 最初是一个试验性的 <a href="https://reactjs.org/docs/legacy-context.html" target="_blank" rel="noopener">API</a>，用来解决组件之间传值的问题。官方并不建议使用，因为在将来（其实已经是现在了）可能会更改甚至是废弃这个 API。但是，作为一个这么方便的 API，要去阻止开发者使用是不现实的。关于何时使用（现在来说，当然是使用 <a href="https://reactjs.org/docs/context.html" target="_blank" rel="noopener">新的 API</a>）以及如何使用老的 context API，<a href="https://twitter.com/dan_abramov" target="_blank" rel="noopener">Dan</a>给出了几点建议：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">shouldIUseReactContextFeature</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (amIALibraryAuthor() &amp;&amp; DdoINeedToPassSomethingDownDeeply()) &#123;</span><br><span class="line">    <span class="comment">// 作为一个库的开发者，你可能需要让 Option 组件与 Select 组件通信</span></span><br><span class="line">    <span class="comment">// 这是没问题的，但你要明白，作为一个试验性的 API</span></span><br><span class="line">    <span class="comment">// context API 可能会更改，可能会有 bug</span></span><br><span class="line">    <span class="comment">// 所以，你需要及时更新，并且擅长解决 bug</span></span><br><span class="line">    <span class="keyword">return</span> amIFineWith(API_CHANGES &amp;&amp; BUGGY_UPDATE);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (myUseCase === <span class="string">'theming'</span> || myUseCase === <span class="string">'localization'</span>) &#123;</span><br><span class="line">    <span class="comment">// 主题和本地化变量，属于那种变化很少的全局变量</span></span><br><span class="line">    <span class="comment">// 如果你要使用 context，请使用高阶组件</span></span><br><span class="line">    <span class="comment">// 这样，如果context API 改了，你可以只修改高阶组件，而不用去所有用到 context 的地方修改</span></span><br><span class="line">    <span class="keyword">return</span> iPromiseToWriteHOCInsteadOfUsingItDirectly();</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (libraryAskMeToUseContext()) &#123;</span><br><span class="line">    <span class="comment">// 要是有库要求你用 context，提 issue</span></span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'File an issue with this library'</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 好运</span></span><br><span class="line">  <span class="keyword">return</span> yolo();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>之前的 context API 的很大缺陷是：顶层的 Provider 组件向目标组件透传的时候，如果中间某个组件的 shouldComponentUpdate 返回了 false，那么新的 context 值就无法到达目标组件，看一下下面的代码实例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> ReactDOM <span class="keyword">from</span> <span class="string">'react-dom'</span>;</span><br><span class="line"><span class="keyword">import</span> PropTypes <span class="keyword">from</span> <span class="string">'prop-types'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// TodoList 继承自 PureComponent</span></span><br><span class="line"><span class="comment">// 因此传入值不变的话，shouldComponentUpdate 会返回 false</span></span><br><span class="line"><span class="comment">// ThemedText 的就会无法更新</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TodoList</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">PureComponent</span> </span>&#123;</span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;ul&gt;</span><br><span class="line">        &#123;<span class="keyword">this</span>.props.todoList.map(<span class="function">(<span class="params">item, index</span>) =&gt;</span> (</span><br><span class="line">          &lt;li key=&#123;index&#125;&gt;</span><br><span class="line">            &lt;ThemedText&gt;&#123;item&#125;&lt;<span class="regexp">/ThemedText&gt;</span></span><br><span class="line"><span class="regexp">          &lt;/</span>li&gt;</span><br><span class="line">        ))&#125;</span><br><span class="line">      &lt;<span class="regexp">/ul&gt;</span></span><br><span class="line"><span class="regexp">    );</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">class ThemeProvider extends React.Component &#123;</span></span><br><span class="line"><span class="regexp">  getChildContext() &#123;</span></span><br><span class="line"><span class="regexp">    return &#123; color: this.props.color &#125;;</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">  render() &#123;</span></span><br><span class="line"><span class="regexp">    return &lt;div&gt;&#123;this.props.children&#125;&lt;/</span>div&gt;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">ThemeProvider.childContextTypes = &#123;</span><br><span class="line">  color: PropTypes.string,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ThemedText</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;div style=&#123;&#123; <span class="attr">color</span>: <span class="keyword">this</span>.context.color &#125;&#125;&gt;&#123;<span class="keyword">this</span>.props.children&#125;&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">    );</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp">ThemedText.contextTypes = &#123;</span></span><br><span class="line"><span class="regexp">  color: PropTypes.string,</span></span><br><span class="line"><span class="regexp">&#125;;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">class App extends React.Component &#123;</span></span><br><span class="line"><span class="regexp">  state = &#123;</span></span><br><span class="line"><span class="regexp">    color: 'black',</span></span><br><span class="line"><span class="regexp">    todoList: ['学习 Vue', '学习 React', '学习 Angular'],</span></span><br><span class="line"><span class="regexp">  &#125;;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">  onClickRed = () =&gt; &#123;</span></span><br><span class="line"><span class="regexp">    this.setState(&#123; color: 'red' &#125;);</span></span><br><span class="line"><span class="regexp">  &#125;;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">  onAddTodo = () =&gt; &#123;</span></span><br><span class="line"><span class="regexp">    const todoList = [...this.state.todoList];</span></span><br><span class="line"><span class="regexp">    todoList.push('真的变红');</span></span><br><span class="line"><span class="regexp">    this.setState(&#123;</span></span><br><span class="line"><span class="regexp">      todoList,</span></span><br><span class="line"><span class="regexp">    &#125;);</span></span><br><span class="line"><span class="regexp">  &#125;;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">  /</span><span class="regexp">/ shouldComponentUpdate() &#123;</span></span><br><span class="line"><span class="regexp">  /</span><span class="regexp">/   return false;</span></span><br><span class="line"><span class="regexp">  /</span><span class="regexp">/ &#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">  render() &#123;</span></span><br><span class="line"><span class="regexp">    return (</span></span><br><span class="line"><span class="regexp">      &lt;ThemeProvider color=&#123;this.state.color&#125;&gt;</span></span><br><span class="line"><span class="regexp">        &lt;button onClick=&#123;this.onClickRed&#125;&gt;</span></span><br><span class="line"><span class="regexp">          &lt;ThemedText&gt;变红~&lt;/</span>ThemedText&gt;</span><br><span class="line">        &lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">        &lt;button onClick=&#123;this.onAddTodo&#125;&gt;真的变红&lt;/</span>button&gt;</span><br><span class="line">        &lt;TodoList todoList=&#123;<span class="keyword">this</span>.state.todoList&#125; /&gt;</span><br><span class="line">      &lt;<span class="regexp">/ThemeProvider&gt;</span></span><br><span class="line"><span class="regexp">    );</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">ReactDOM.render(&lt;App /</span>&gt;, <span class="built_in">document</span>.getElementById(<span class="string">'root'</span>));</span><br></pre></td></tr></table></figure>
+<p>上面的例子中，<code>TodoList</code> 继承自 <code>PureComponent</code>，所以传入值不变的情况下，<code>shouldComponentUpdate</code> 始终返回 <code>false</code>。由于老版本 <code>context</code> API 的缺陷，<code>ThemedText</code> 组件无法拿到更新后的值。所以，点击变红按钮，TodoList 中的文字没有变色；而当增加一个 TODO 时，<code>shouldComponentUpdate</code> 返回 <code>true</code>，新的 context 才传递下来。新的 <code>context</code> API 解决了这个缺陷，类似的代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> ThemeContext = React.createContext(&#123;</span><br><span class="line">  color: <span class="string">'black'</span>,</span><br><span class="line">&#125;);</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ThemedText</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;div style=&#123;&#123; <span class="attr">color</span>: <span class="keyword">this</span>.context.color &#125;&#125;&gt;&#123;<span class="keyword">this</span>.props.children&#125;&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">    );</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp">ThemedText.contextType = ThemeContext;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">/</span><span class="regexp">/ 即使 shouldComponentUpdate 返回 false，context 值也能传递下去</span></span><br><span class="line"><span class="regexp">class TodoList extends React.PureComponent &#123;</span></span><br><span class="line"><span class="regexp">  render() &#123;</span></span><br><span class="line"><span class="regexp">    return (</span></span><br><span class="line"><span class="regexp">      &lt;ul&gt;</span></span><br><span class="line"><span class="regexp">        &#123;this.props.todoList.map((item, index) =&gt; (</span></span><br><span class="line"><span class="regexp">          &lt;li key=&#123;index&#125;&gt;</span></span><br><span class="line"><span class="regexp">            &lt;ThemedText&gt;&#123;item&#125;&lt;/</span>ThemedText&gt;</span><br><span class="line">          &lt;<span class="regexp">/li&gt;</span></span><br><span class="line"><span class="regexp">        ))&#125;</span></span><br><span class="line"><span class="regexp">      &lt;/u</span>l&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">App</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  state = &#123;</span><br><span class="line">    theme: &#123;</span><br><span class="line">      color: <span class="string">'black'</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    todoList: [<span class="string">'学习 Vue'</span>, <span class="string">'学习 React'</span>, <span class="string">'学习 Angular'</span>],</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  onClickRed = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">this</span>.setState(&#123;</span><br><span class="line">      theme: &#123;</span><br><span class="line">        color: <span class="string">'red'</span>,</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  onAddTodo = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> todoList = [...this.state.todoList];</span><br><span class="line">    todoList.push(<span class="string">'真的变红'</span>);</span><br><span class="line">    <span class="keyword">this</span>.setState(&#123;</span><br><span class="line">      todoList,</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// shouldComponentUpdate() &#123;</span></span><br><span class="line">  <span class="comment">//   return false;</span></span><br><span class="line">  <span class="comment">// &#125;</span></span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;ThemeContext.Provider value=&#123;<span class="keyword">this</span>.state.theme&#125;&gt;</span><br><span class="line">        &lt;button onClick=&#123;<span class="keyword">this</span>.onClickRed&#125;&gt;</span><br><span class="line">          &lt;ThemedText&gt;变红~&lt;/ThemedText&gt;</span><br><span class="line">        &lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">        &lt;button onClick=&#123;this.onAddTodo&#125;&gt;真的变红&lt;/</span>button&gt;</span><br><span class="line">        &lt;TodoList todoList=&#123;<span class="keyword">this</span>.state.todoList&#125; /&gt;</span><br><span class="line">      &lt;<span class="regexp">/ThemeContext.Provider&gt;</span></span><br><span class="line"><span class="regexp">    );</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">ReactDOM.render(&lt;App /</span>&gt;, <span class="built_in">document</span>.getElementById(<span class="string">'root'</span>));</span><br></pre></td></tr></table></figure>
+<p>在使用老版本的 React 时，为了避免这个 “bug”，可以使用 “react-redux”；而现在无需 redux 我们就可以克服 <code>shouldComponentUpdate</code> 返回 <code>false</code> 的障碍。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">react</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">react context</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">redux</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/11/11/react-context-and-simple-redux/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-when-i-peeked-into-node-modules-directory" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
@@ -966,7 +1054,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">新世界</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">http</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">React.js</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">javascript sort</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">js 算法</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -982,39 +1090,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">新世界</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">javascript sort</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">js 算法</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">js</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">对象复制</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">macOS APP</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">前端 bug</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">yarn 失效</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1030,11 +1110,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">macOS APP</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">TypeScript</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">react.js</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">react.js hooks</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">前端 bug</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">yarn 失效</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1050,7 +1146,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">TypeScript</a>
+                <a href="javascript:void(0)" class="js-tag color3">node_modules</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">babel</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1059,14 +1159,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">axios</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">node_modules</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">babel</a>
               </li>
             
             <div class="clearfix"></div>
